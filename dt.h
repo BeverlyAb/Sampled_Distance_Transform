@@ -14,7 +14,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 */
 
 /* distance transform */
-
+// Ts = 2.2609e+06, 2.26196e+06
 #ifndef DT_H
 #define DT_H
 
@@ -63,7 +63,7 @@ static void dt(image<float> *im) {
   int height = im->height();
 
   // transform along columns
-  omp_set_num_threads(1);
+  omp_set_num_threads(THREADS);
 /*  #pragma omp parallel
 {
 	printf("Hello ");
@@ -97,6 +97,7 @@ for (y = 0; y < height; y++) {
       f[x] = imRef(im, x, y);
     }
   float * d = dt(f, width);
+    #pragma omp parallel for
     for (int x = 0; x < width; x++) {
       imRef(im, x, y) = d[x];
     }

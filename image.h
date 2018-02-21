@@ -61,19 +61,19 @@ class image {
 
 template <class T>
 image<T>::image(const int width, const int height, const bool init) {
-  #pragma omp parallel num_threads(THREADS/4)
-  {
-    #pragma omp task
-    {
+//  #pragma omp parallel num_threads(THREADS/4)
+//  {
+//    #pragma omp task
+  //  {
       w = width;
       h = height;
       data = new T[w * h];  // allocate space for image data
       access = new T*[h];   // allocate space for row pointers
-   }
-  }
+  // }
+//  }
   // initialize row pointers
   int i = 0;
-  #pragma omp parallel for default(none) firstprivate(access) private(i) shared(h, data, w)
+//  #pragma omp parallel for default(none) firstprivate(access) private(i) shared(h, data, w)
   for ( i = 0; i < h; i++)
     access[i] = data + (i * w);
 

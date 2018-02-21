@@ -30,6 +30,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #include <vector>
 #include <string>
 #include <iostream>
+#include <omp.h>
+#define THREADS 8
 
 using namespace std;
 
@@ -68,6 +70,8 @@ int main(int argc, char **argv) {
   getdir(dir,files);
 
   auto start_wall_clock = std::chrono::steady_clock::now();
+//  #pragma omp parallel for num_threads(THREADS)
+//  #pragma single nowait
   for (unsigned int i = 0; i < files.size();i++)//change 5 to files.size()
   {
     string a = "Before loading";
