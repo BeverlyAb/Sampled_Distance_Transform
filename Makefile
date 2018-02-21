@@ -19,3 +19,8 @@ clean:
 
 clean-all: clean
 	/bin/rm -f *~
+
+run:
+	make clean
+	make
+	./dt.sh
