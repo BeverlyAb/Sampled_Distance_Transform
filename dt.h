@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #include <time.h>
 #include<omp.h>
 #define INF 1E20
+//7k x 6k
 
 /* dt of 1d function using squared distance */
 static float *dt(float *f, int n) {
@@ -73,7 +74,7 @@ int x =0,y=0;
 #pragma omp parallel shared(im)
 {
   float * f = new float[std::max(width,height)];
-  #pragma omp for
+  #pragma omp for 
   for (int x = 0; x < width; x++) {
     for (int y = 0; y < height; y++) {
       f[y] = imRef(im, x, y);
