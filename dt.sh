@@ -1,7 +1,4 @@
 #!/bin/bash
-#$ -N mergesort
-#$ -q class8i
-#$ -pe openmp 8
 
 # Module load gcc compiler version 4.8.2
 module load  gcc/4.9.2
@@ -10,17 +7,13 @@ module load  gcc/4.9.2
 # utilities, just as an example:
 
 echo "Script began:" `date`
-echo "Node:" `hostname`
 echo "Current directory: ${PWD}"
 
-echo ""
-echo "=== Running 5 trials of Mergesort on 10 million elements ... ==="
+#Clear files first
+> inputTest.txt
 for trial in 1 2 3 4 5 ; do
-  echo "*** Trial ${trial} ***"
-  ./dt input.pgm out1.pgm
+  ./dt input.pgm out1.pgm >> inputTest.txt
 done
-
-echo ""
+#cat inputTest.txt|head -10|tr " " "\t"|cut -f13|awk 'f += $1 {printf("%.13g\n",f/NR)}'|tail -1
+awk ' { sum += $1; n++ } END { print sum/n }' inputTest.txt
 echo "=== Done! ==="
-
-# eof

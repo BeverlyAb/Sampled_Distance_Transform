@@ -41,8 +41,9 @@ int getdir (string dir, vector<string> &files)
         cout << "Error(" << errno << ") opening " << dir << endl;
         return errno;
     }
-
     while ((dirp = readdir(dp)) != NULL) {
+        if(dirp->d_name == "vg.pgm")
+          cout << dirp->d_name << endl;
         files.push_back(string(dirp->d_name));
     }
     closedir(dp);
@@ -61,47 +62,40 @@ int main(int argc, char **argv) {
   // load input
   //image<uchar> *input = loadPBM(input_name);
 
-    string dir = string("./img/");
-    vector<string> files = vector<string>();
+  string dir = string("./img/");
+  vector<string> files = vector<string>();
 
-    getdir(dir,files);
+  getdir(dir,files);
 
-    auto start_wall_clock = std::chrono::steady_clock::now();
-    for (unsigned int i = 4;i < files.size();i++)//change 5 to files.size() 
-    {
-     //   cout << files[i] << endl;
-    
-    
-
-    //string a = "Before loading";
-    //cout <<  files[1] << endl;
+  auto start_wall_clock = std::chrono::steady_clock::now();
+  for (unsigned int i = 0; i < files.size();i++)//change 5 to files.size()
+  {
+    string a = "Before loading";
     string in_name = "img/" + files[i];
-   // cout << in_name << "\n";
-    image<uchar> *input = loadPGM(in_name.c_str());
-    // compute dt
-   // cout << "Error in loading\n";
-    image<float> *out = dt(input);
-    //printf("Time Elapsed: %d\n ", timer2-timer);
-    // take square roots
-    for (int y = 0; y < out->height(); y++) {
-      for (int x = 0; x < out->width(); x++) {
-        imRef(out, x, y) = sqrt(imRef(out, x, y));
+    //cout << in_name << endl;
+    if(in_name == "img/vg.pgm"){
+
+      image<uchar> *input = loadPGM(in_name.c_str());
+      image<float> *out = dt(input);
+      for (int y = 0; y < out->height(); y++) {
+        for (int x = 0; x < out->width(); x++) {
+          imRef(out, x, y) = sqrt(imRef(out, x, y));
+        }
       }
+
+      // convert to grayscale
+      image<uchar> *gray = imageFLOATtoUCHAR(out);
+
+      // save output
+     string out_name = "result_images/res_"  + files[i];
+      savePGM(gray, out_name.c_str());
+
+      delete input;
+      delete out;
+      delete gray;
     }
+  }
 
-    // convert to grayscale
-    image<uchar> *gray = imageFLOATtoUCHAR(out);
-
-    // save output
-   string out_name = "result_images/res_"  + files[i];
-    savePGM(gray, out_name.c_str());
-
-    delete input;
-    delete out;
-    delete gray;
+  auto finish_wall_clock = std::chrono::steady_clock::now();
+  cout << (finish_wall_clock - start_wall_clock) / std::chrono::microseconds(1) << "\n";
 }
-  
-    auto finish_wall_clock = std::chrono::steady_clock::now();
-    std::cout << "Wall clock: " << (finish_wall_clock - start_wall_clock) / std::chrono::microseconds(1) << " microseconds\n";
-}
-
