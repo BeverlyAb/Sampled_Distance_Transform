@@ -71,23 +71,23 @@ static void dt(image<float> *im) {
 }*/
  //   float *d;
 int x =0,y=0;
-#pragma omp parallel shared(im)
+#pragma omp parallel //shared(im)
 {
   float * f = new float[std::max(width,height)];
-  #pragma omp for 
+  #pragma omp for
   for (int x = 0; x < width; x++) {
     for (int y = 0; y < height; y++) {
       f[y] = imRef(im, x, y);
     }
-   float * d = dt(f, height);
-  //  #pragma omp for
+
+  float * d = dt(f, height);
+//  #pragma omp for
 	for (int y = 0; y < height; y++) {
       imRef(im, x, y) = d[y];
     }
     delete [] d;
   }
-}
-  // transform along rows
+}  // transform along rows
 //#pragma omp parallel for shared(im)private(f,y,x)
 
 //float * d = dt(f, height);
