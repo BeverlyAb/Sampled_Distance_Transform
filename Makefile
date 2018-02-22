@@ -23,4 +23,4 @@ clean-all: clean
 run:
 	make clean
 	make
-	./dt.sh
+	qsub dt.sh

@@ -1,9 +1,9 @@
 #!/bin/bash
 #$ -q class8i
-# $ -pe one-node-mpi 1
+# -pe mpi 8 
 #$ -R y
 #$ -N DTS
-#$ -pe openmp 8
+#$ -pe openmp 8			
 # Module load gcc compiler version 4.8.2
 #module load  gcc/4.9.2
 
@@ -13,7 +13,8 @@
 > inputTest.txt
 for trial in 1 2 3 4 5 ; do
   ./dt input.pgm out1.pgm >> inputTest.txt
+	#mpirun -np 8 ./dt input.pgm out1.pgm >> inputTest.txt
 done
-display /data/users/babadine/HPC_224/project/teamDT/result_images/res_vg.pgm
+#display -resize 25% result_images/res_vg.pgm &
 awk ' { sum += $1; n++ } END { print sum/n }' inputTest.txt
 echo "=== Done! ==="
