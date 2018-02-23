@@ -38,14 +38,14 @@ static float *dt(float *f, int n) {
   z[1] = +INF;
 
   float s = 0.0;
-//#pragma omp parallel for shared(s) num_threads(THREADS)
+#pragma omp parallel for num_threads(THREADS)
   for (int q = 1; q <= n-1; q++) {
     s  = ((f[q]+square(q))-(f[v[k]]+square(v[k])))/(2*q-2*v[k]);
     while (s <= z[k]) {
       k--;
       s  = ((f[q]+square(q))-(f[v[k]]+square(v[k])))/(2*q-2*v[k]);
     }
-    omp_set_num_threads(1);
+    //omp_set_num_threads(1);
     //#pragma omp task
     //{
     k++;
@@ -56,7 +56,7 @@ static float *dt(float *f, int n) {
   }
 
   k = 0;
-//  #pragma omp parallel for num_threads(THREADS)
+  #pragma omp parallel for num_threads(THREADS)
   for (int q = 0; q <= n-1; q++) {
     while (z[k+1] < q)
       k++;
