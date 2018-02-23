@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #include <string>
 #include <iostream>
 #include <omp.h>
-#define THREADS 8
+
 
 using namespace std;
 
@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
     string a = "Before loading";
     string in_name = "img/" + files[i];
     //cout << in_name << endl;
-    if(in_name == "img/vg.pgm"){
+    if(in_name == "img/vg_12.pgm"){
 
       image<uchar> *input = loadPGM(in_name.c_str());
       image<float> *out = dt(input);

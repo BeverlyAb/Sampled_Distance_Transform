@@ -1,7 +1,7 @@
 INCDIR = -I.
 DBG    = -g
 OPT    = -O3
-CPP    = g++ -fopenmp #g++-7 -fopenmp -lc++
+CPP    = g++-7 -fopenmp -lc++ #g++ -fopenmp 
 STD    = -std=gnu++11
 CFLAGS = $(DBG) $(OPT) $(INCDIR) $(STD)
 LINK   = -lm
@@ -23,4 +23,5 @@ clean-all: clean
 run:
 	make clean
 	make
-	qsub dt.sh
+	#qsub dt.sh
+	./dt.sh

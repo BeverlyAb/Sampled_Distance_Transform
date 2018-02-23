@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #define IMAGE_H
 
 #include <cstring>
-#define THREADS 8
+
 
 template <class T>
 class image {
