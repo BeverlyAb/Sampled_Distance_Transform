@@ -38,7 +38,7 @@ static float *dt(float *f, int n) {
   z[1] = +INF;
 
   float s = 0.0;
-#pragma omp parallel for shared(s) num_threads(THREADS)
+//#pragma omp parallel for shared(s) num_threads(THREADS)
   for (int q = 1; q <= n-1; q++) {
     s  = ((f[q]+square(q))-(f[v[k]]+square(v[k])))/(2*q-2*v[k]);
     while (s <= z[k]) {
@@ -56,7 +56,7 @@ static float *dt(float *f, int n) {
   }
 
   k = 0;
-  #pragma omp parallel for num_threads(THREADS)
+//  #pragma omp parallel for num_threads(THREADS)
   for (int q = 0; q <= n-1; q++) {
     while (z[k+1] < q)
       k++;
@@ -74,11 +74,7 @@ static void dt(image<float> *im) {
   int height = im->height();
 
   // transform along columns
-/*  #pragma omp parallel
-{
-	printf("Hello ");
-}*/
- //   float *d;
+
 	int x =0,y=0;
 	#pragma omp parallel num_threads(THREADS)//shared(im)
 	{
