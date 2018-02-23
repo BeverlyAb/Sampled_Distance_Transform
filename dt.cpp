@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
     string a = "Before loading";
     string in_name = "img/" + files[i];
     //cout << in_name << endl;
-    if(in_name == "img/vg_12.pgm"){
+    if(in_name == "img/vg_42.pgm"){
 
       image<uchar> *input = loadPGM(in_name.c_str());
       image<float> *out = dt(input);
