@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
 
   getdir(dir,files);
 
-  auto start_wall_clock = std::chrono::steady_clock::now();
+//  auto start_wall_clock = std::chrono::steady_clock::now();
 //  #pragma omp parallel for num_threads(THREADS)
 //  #pragma single nowait
   for (unsigned int i = 0; i < files.size();i++)//change 5 to files.size()
@@ -77,10 +77,15 @@ int main(int argc, char **argv) {
     string a = "Before loading";
     string in_name = "img/" + files[i];
     //cout << in_name << endl;
-    if(in_name == "img/vg_1.pgm"){
+    if(in_name == "img/vg_42.pgm"){
 
       image<uchar> *input = loadPGM(in_name.c_str());
+
+      auto start_wall_clock = std::chrono::steady_clock::now();
       image<float> *out = dt(input);
+      auto finish_wall_clock = std::chrono::steady_clock::now();
+      cout << (finish_wall_clock - start_wall_clock) / std::chrono::microseconds(1) << "\n";
+
       for (int y = 0; y < out->height(); y++) {
         for (int x = 0; x < out->width(); x++) {
           imRef(out, x, y) = sqrt(imRef(out, x, y));
@@ -100,6 +105,4 @@ int main(int argc, char **argv) {
     }
   }
 
-  auto finish_wall_clock = std::chrono::steady_clock::now();
-  cout << (finish_wall_clock - start_wall_clock) / std::chrono::microseconds(1) << "\n";
 }
