@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #define INF 1E20
 
 #define THREADS 4
-#define CHUNKSIZE 100
+#define CHUNKSIZE 50
 //7k x 6k
 
 /* dt of 1d function using squared distance */
@@ -70,46 +70,38 @@ static void dt(image<float> *im) {
   omp_set_num_threads(THREADS);
 
   int x =0,y=0;
-	 #pragma omp parallel
-	 {
    // transform along columns
-    float * f = new float[std::max(width,height)];
-    #pragma omp task
-    {
-      #pragma omp parallel for schedule(dynamic,CHUNKSIZE)
-      for (int x = 0; x < width; x++) {
-        for (int y = 0; y < height; y++) {
-  		    f[y] = imRef(im, x, y);
-  		  }
+  float * f = new float[height];
+  float * g = new float[width];
 
-        float * d = dt(f, height);
-        for (int y = 0; y < height; y++) {
-  		    imRef(im, x, y) = d[y];
-  		  }
-  		  delete [] d;
-  		}
-      delete f;
-    }
-    // transform along rows
-    #pragma omp taskwait
+  //#pragma omp parallel for schedule(dynamic,CHUNKSIZE)
+  for (int x = 0; x < width; x++) {
+    for (int y = 0; y < height; y++) {
+	    f[y] = imRef(im, x, y);
+	  }
+    float * d = dt(f, height);
+    //#pragma omp parallel for schedule(dynamic,CHUNKSIZE)
+    for (int y = 0; y < height; y++) {
+	    imRef(im, x, y) = d[y];
+	  }
+	  delete [] d;
+	}
+  delete f;
 
-    #pragma omp task
-    {
-      #pragma omp parallel for schedule(dynamic,CHUNKSIZE)
-      for (y = 0; y < height; y++) {
-    		float * g = new float[std::max(width,height)];
-    		for (x = 0; x < width; x++) {
-    			g[x] = imRef(im, x, y);
-    		}
-    		float * e = dt(g, width);
-    		for (int x = 0; x < width; x++) {
-    			imRef(im, x, y) = e[x];
-    		}
-        delete [] e;
-        delete g;
-      }
-    }
+// transform along rows
+//  #pragma omp parallel for schedule(dynamic,CHUNKSIZE)
+  for (y = 0; y < height; y++) {
+  	for (x = 0; x < width; x++) {
+  		g[x] = imRef(im, x, y);
+  	}
+  	float * e = dt(g, width);
+  //  #pragma omp parallel for schedule(dynamic,CHUNKSIZE)
+  	for (int x = 0; x < width; x++) {
+  		imRef(im, x, y) = e[x];
+  	}
+    delete [] e;
   }
+  delete g;
 }
 
 
