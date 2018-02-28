@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #include<omp.h>
 #define INF 1E20
 
-#define THREADS 2
-#define CHUNKSIZE 50
+#define THREADS 4
+#define CHUNKSIZE 1000000
 //7k x 6k
 
 /* dt of 1d function using squared distance */
@@ -70,46 +70,37 @@ static void dt(image<float> *im) {
   omp_set_num_threads(THREADS);
 
   int x =0,y=0;
-	// #pragma omp parallel
-	// {
-   // transform along columns
-  // #pragma omp task shared(im)
-  //  {
-      #pragma omp parallel for //shared(im)
-      for (int x = 0; x < width; x++) {
-        float * f = new float[height];
-        for (int y = 0; y < height; y++) {
-  		    f[y] = imRef(im, x, y);
-  		  }
+  #pragma omp parallel for schedule(dynamic)//shared(im)
+  for (int x = 0; x < width; x++) {
+    float * f = new float[height];
+    for (int y = 0; y < height; y++) {
+	    f[y] = imRef(im, x, y);
+	  }
+    float * d = dt(f, height);
 
-        float * d = dt(f, height);
-        for (int y = 0; y < height; y++) {
-  		    imRef(im, x, y) = d[y];
-  		  }
-  		  delete [] d;
-        delete f;
-  		}
+    #pragma omp parallel for schedule(dynamic, CHUNKSIZE)
+    for (int y = 0; y < height; y++) {
+	    imRef(im, x, y) = d[y];
+	  }
+	  delete [] d;
+    delete f;
+	}
 
-    //}
-    // transform along rows
-//    #pragma omp taskwait
-//    #pragma omp task
-//    {
-      #pragma omp parallel for //shared(im)
-      for (y = 0; y < height; y++) {
-    		float * g = new float[width];
-    		for (x = 0; x < width; x++) {
-    			g[x] = imRef(im, x, y);
-    		}
-    		float * e = dt(g, width);
-    		for (int x = 0; x < width; x++) {
-    			imRef(im, x, y) = e[x];
-    		}
-        delete [] e;
-        delete g;
-      }
-  //  }
-//   }
+  #pragma omp parallel for schedule(dynamic)//shared(im)
+  for (y = 0; y < height; y++) {
+		float * g = new float[width];
+		for (x = 0; x < width; x++) {
+			g[x] = imRef(im, x, y);
+		}
+		float * e = dt(g, width);
+
+    #pragma omp parallel for schedule(dynamic, CHUNKSIZE)
+    for (int x = 0; x < width; x++) {
+			imRef(im, x, y) = e[x];
+		}
+    delete [] e;
+    delete g;
+  }
 }
 
 /* dt of binary image using squared distance */
