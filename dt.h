@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #include<omp.h>
 #define INF 1E20
 
-#define THREADS 1
-#define CHUNKSIZE 5
+#define THREADS 4
+#define CHUNKSIZE 30
 //7k x 6k
 
 /* dt of 1d function using squared distance */
@@ -39,25 +39,19 @@ static float *dt(float *f, int n) {
   z[1] = +INF;
 
   float s = 0.0;
-#pragma omp parallel for num_threads(THREADS)
   for (int q = 1; q <= n-1; q++) {
     s  = ((f[q]+square(q))-(f[v[k]]+square(v[k])))/(2*q-2*v[k]);
     while (s <= z[k]) {
       k--;
       s  = ((f[q]+square(q))-(f[v[k]]+square(v[k])))/(2*q-2*v[k]);
     }
-    //omp_set_num_threads(1);
-    //#pragma omp task
-    //{
     k++;
     v[k] = q;
     z[k] = s;
     z[k+1] = +INF;
-    //}
   }
 
   k = 0;
-  #pragma omp parallel for num_threads(THREADS)
   for (int q = 0; q <= n-1; q++) {
     while (z[k+1] < q)
       k++;
@@ -73,43 +67,51 @@ static float *dt(float *f, int n) {
 static void dt(image<float> *im) {
   int width = im->width();
   int height = im->height();
+  omp_set_num_threads(THREADS);
 
-  // transform along columns
-	int x =0,y=0;
-	#pragma omp parallel num_threads(THREADS)//shared(im)
-	{
-		float * f = new float[std::max(width,height)];
-		#pragma omp for schedule(dynamic,CHUNKSIZE)
-		for (int x = 0; x < width; x++) {
-		  for (int y = 0; y < height; y++) {
-		    f[y] = imRef(im, x, y);
-		  }
+  int x =0,y=0;
+	 #pragma omp parallel
+	 {
+   // transform along columns
+    float * f = new float[std::max(width,height)];
+    #pragma omp task
+    {
+      #pragma omp parallel for schedule(dynamic,CHUNKSIZE)
+      for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+  		    f[y] = imRef(im, x, y);
+  		  }
 
-      float * d = dt(f, height);
-	//  #pragma omp for
-			for (int y = 0; y < height; y++) {
-		    imRef(im, x, y) = d[y];
-		  }
-		  delete [] d;
-		}
-	}  // transform along rows
-	//#pragma omp parallel for shared(im)private(f,y,x)
+        float * d = dt(f, height);
+        for (int y = 0; y < height; y++) {
+  		    imRef(im, x, y) = d[y];
+  		  }
+  		  delete [] d;
+  		}
+    }
+    // transform along rows
+    #pragma omp taskwait
 
-//float * d = dt(f, height);
-	#pragma omp parallel for schedule(dynamic,CHUNKSIZE)
-	for (y = 0; y < height; y++) {
-		float * f = new float[std::max(width,height)];
-		for (x = 0; x < width; x++) {
-			f[x] = imRef(im, x, y);
-		}
-		float * d = dt(f, width);
-		#pragma omp parallel for schedule(dynamic,CHUNKSIZE)
-		for (int x = 0; x < width; x++) {
-			imRef(im, x, y) = d[x];
-		}
-		delete [] d;
-		delete f;
-		}
+    #pragma omp task
+    {
+      #pragma omp parallel for schedule(dynamic,CHUNKSIZE)
+      for (y = 0; y < height; y++) {
+    		float * f = new float[std::max(width,height)];
+    		for (x = 0; x < width; x++) {
+    			f[x] = imRef(im, x, y);
+    		}
+    		float * d = dt(f, width);
+    		for (int x = 0; x < width; x++) {
+    			imRef(im, x, y) = d[x];
+    		}
+        delete [] d;
+      }
+    }
+    #pragma omp taskwait
+
+    #pragma omp task
+    delete f;
+  }
 }
 
 
@@ -119,9 +121,7 @@ static image<float> *dt(image<uchar> *im, uchar on = 1) {
   int height = im->height();
 
   image<float> *out = new image<float>(width, height, false);
-  #pragma omp parallel for //adding this line seems to reduce the speed
   for(int y = 0; y < height; y++) {
-    #pragma omp parallel for
     for (int x = 0; x < width; x++) {
       if (imRef(im, x, y) == on)
 	     imRef(out, x, y) = 0;
