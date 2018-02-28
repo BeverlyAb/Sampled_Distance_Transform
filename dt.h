@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #define INF 1E20
 
 #define THREADS 4
-#define CHUNKSIZE 30
+#define CHUNKSIZE 100
 //7k x 6k
 
 /* dt of 1d function using squared distance */
@@ -88,6 +88,7 @@ static void dt(image<float> *im) {
   		  }
   		  delete [] d;
   		}
+      delete f;
     }
     // transform along rows
     #pragma omp taskwait
@@ -96,21 +97,18 @@ static void dt(image<float> *im) {
     {
       #pragma omp parallel for schedule(dynamic,CHUNKSIZE)
       for (y = 0; y < height; y++) {
-    		float * f = new float[std::max(width,height)];
+    		float * g = new float[std::max(width,height)];
     		for (x = 0; x < width; x++) {
-    			f[x] = imRef(im, x, y);
+    			g[x] = imRef(im, x, y);
     		}
-    		float * d = dt(f, width);
+    		float * e = dt(g, width);
     		for (int x = 0; x < width; x++) {
-    			imRef(im, x, y) = d[x];
+    			imRef(im, x, y) = e[x];
     		}
-        delete [] d;
+        delete [] e;
+        delete g;
       }
     }
-    #pragma omp taskwait
-
-    #pragma omp task
-    delete f;
   }
 }
 
