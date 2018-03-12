@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #define INF 1E20
 
 #define THREADS 8
-#define CHUNKSIZE 10000000
+#define CHUNKSIZE 1500000
 
 /* dt of 1d function using squared distance */
 static float *dt(float *f, int n) {
@@ -77,7 +77,7 @@ static void dt(image<float> *im) {
   		  }
 
         float * d = dt(f, height);
-				#pragma omp parallel for schedule(guided)
+		#pragma omp parallel for schedule(guided)
         for (int y = 0; y < height; y++) {
   		    imRef(im, x, y) = d[y];
   		  }
@@ -85,14 +85,14 @@ static void dt(image<float> *im) {
         delete f;
   		}
 
-     	#pragma omp parallel for schedule(guided)
+     #pragma omp parallel for schedule(guided)
       for (y = 0; y < height; y++) {
     		float * g = new float[width];
     		for (x = 0; x < width; x++) {
     			g[x] = imRef(im, x, y);
     		}
     		float * e = dt(g, width);
-				#pragma omp parallel for schedule(guided)
+		#pragma omp parallel for schedule(guided)
     		for (int x = 0; x < width; x++) {
     			imRef(im, x, y) = e[x];
     		}
