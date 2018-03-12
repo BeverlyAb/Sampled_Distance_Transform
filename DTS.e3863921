@@ -1,0 +1,5 @@
+/var/spool/sge/compute-13-1/job_scripts/3863921: line 13: 31696 Segmentation fault      (core dumped) ./dt input.pgm out1.pgm >> inputTest.txt
+/var/spool/sge/compute-13-1/job_scripts/3863921: line 13: 31734 Segmentation fault      (core dumped) ./dt input.pgm out1.pgm >> inputTest.txt
+/var/spool/sge/compute-13-1/job_scripts/3863921: line 13: 31742 Segmentation fault      (core dumped) ./dt input.pgm out1.pgm >> inputTest.txt
+/var/spool/sge/compute-13-1/job_scripts/3863921: line 13: 31750 Segmentation fault      (core dumped) ./dt input.pgm out1.pgm >> inputTest.txt
+/var/spool/sge/compute-13-1/job_scripts/3863921: line 13: 31758 Segmentation fault      (core dumped) ./dt input.pgm out1.pgm >> inputTest.txt
