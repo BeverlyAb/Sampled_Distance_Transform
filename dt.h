@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #include<omp.h>
 #define INF 1E20
 
-#define THREADS 1
+#define THREADS 1024
 #define CHUNKSIZE 100
 //7k x 6k
 
@@ -78,6 +78,7 @@ static void dt(image<float> *im) {
   		  }
 
         float * d = dt(f, height);
+				#pragma omp parallel for schedule(dynamic, CHUNKSIZE)//shared(im)
         for (int y = 0; y < height; y++) {
   		    imRef(im, x, y) = d[y];
   		  }
@@ -92,6 +93,7 @@ static void dt(image<float> *im) {
     			g[x] = imRef(im, x, y);
     		}
     		float * e = dt(g, width);
+				#pragma omp parallel for schedule(dynamic, CHUNKSIZE)//shared(im)
     		for (int x = 0; x < width; x++) {
     			imRef(im, x, y) = e[x];
     		}

@@ -2,7 +2,7 @@
 #$ -q class8i
 #$ -R y
 #$ -N DTS
-#$ -pe openmp 8			
+#$ -pe openmp 7			
 # Module load gcc compiler version 4.8.2
 #module load  gcc/4.9.2
 
@@ -11,7 +11,7 @@
 #Clear files first
 > inputTest.txt
 for trial in 1 2 3 4 5 ; do
-	perf timechart ./dt input.pgm out1.pgm >> inputTest.txt
+	./dt input.pgm out1.pgm >> inputTest.txt
 done
 
 awk ' { sum += $1; n++ } END { print sum/n }' inputTest.txt
