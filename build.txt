@@ -1,0 +1,5 @@
+#!/bin/bash 
+echo "Calling make clean and make"
+make clean
+make
+./dt input.pgm out.pgm

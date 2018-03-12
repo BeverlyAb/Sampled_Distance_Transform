@@ -1,0 +1,20 @@
+Performance counter stats for 'make':
+
+          2.077785      task-clock (msec)         #    0.653 CPUs utilized          
+                 3      context-switches          #    0.001 M/sec                  
+                 1      cpu-migrations            #    0.481 K/sec                  
+                99      page-faults               #    0.048 M/sec                  
+         6,577,559      cycles                    #    3.166 GHz                    
+         4,687,956      instructions              #    0.71  insn per cycle         
+         1,005,430      branches                  #  483.895 M/sec                  
+            36,826      branch-misses             #    3.66% of all branches        
+
+       0.003183613 seconds time elapsed
+
+
+
+Performance counter stats for 'make':
+
+            68,934      L1-dcache-load-misses                                       
+
+       0.003225428 seconds time elapsed

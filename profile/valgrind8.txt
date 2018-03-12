@@ -1,0 +1,483 @@
+==13603== Memcheck, a memory error detector
+==13603== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==13603== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==13603== Command: ./dt input.pgm out1.pgm
+==13603== 
+==13603== Mismatched free() / delete / delete []
+==13603==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==13603==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==13603==    by 0x4024F1: main (dt.h:73)
+==13603==  Address 0x5fc2910 is 0 bytes inside a block of size 12,288 alloc'd
+==13603==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==13603==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==13603==    by 0x4024F1: main (dt.h:73)
+==13603== 
+==13603== Thread 4:
+==13603== Mismatched free() / delete / delete []
+==13603==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==13603==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==13603==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==13603==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==13603==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==13603==  Address 0x60474c0 is 0 bytes inside a block of size 12,288 alloc'd
+==13603==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==13603==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==13603==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==13603==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==13603==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==13603== 
+==13603== Thread 7:
+==13603== Mismatched free() / delete / delete []
+==13603==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==13603==    by 0x4032B2: dt(image<float>*) [clone ._omp_fn.1] (dt.h:99)
+==13603==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==13603==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==13603==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==13603==  Address 0xb07b0d0 is 0 bytes inside a block of size 16,384 alloc'd
+==13603==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==13603==    by 0x4032DD: dt(image<float>*) [clone ._omp_fn.1] (dt.h:90)
+==13603==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==13603==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==13603==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==13603== 
+==13603== 
+==13603== HEAP SUMMARY:
+==13603==     in use at exit: 6,752 bytes in 11 blocks
+==13603==   total heap usage: 29,342 allocs, 29,331 frees, 478,340,276 bytes allocated
+==13603== 
+==13603== LEAK SUMMARY:
+==13603==    definitely lost: 0 bytes in 0 blocks
+==13603==    indirectly lost: 0 bytes in 0 blocks
+==13603==      possibly lost: 4,144 bytes in 7 blocks
+==13603==    still reachable: 2,608 bytes in 4 blocks
+==13603==         suppressed: 0 bytes in 0 blocks
+==13603== Rerun with --leak-check=full to see details of leaked memory
+==13603== 
+==13603== For counts of detected and suppressed errors, rerun with: -v
+==13603== ERROR SUMMARY: 7168 errors from 3 contexts (suppressed: 8 from 6)
+==13611== Memcheck, a memory error detector
+==13611== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==13611== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==13611== Command: ./dt input.pgm out1.pgm
+==13611== 
+==13611== Thread 6:
+==13611== Mismatched free() / delete / delete []
+==13611==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==13611==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==13611==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==13611==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==13611==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==13611==  Address 0x5fc2910 is 0 bytes inside a block of size 12,288 alloc'd
+==13611==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==13611==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==13611==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==13611==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==13611==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==13611== 
+==13611== Thread 1:
+==13611== Mismatched free() / delete / delete []
+==13611==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==13611==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==13611==    by 0x4024F1: main (dt.h:73)
+==13611==  Address 0x60474c0 is 0 bytes inside a block of size 12,288 alloc'd
+==13611==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==13611==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==13611==    by 0x4024F1: main (dt.h:73)
+==13611== 
+==13611== Thread 8:
+==13611== Mismatched free() / delete / delete []
+==13611==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==13611==    by 0x4032B2: dt(image<float>*) [clone ._omp_fn.1] (dt.h:99)
+==13611==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==13611==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==13611==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==13611==  Address 0x5fddba0 is 0 bytes inside a block of size 16,384 alloc'd
+==13611==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==13611==    by 0x4032DD: dt(image<float>*) [clone ._omp_fn.1] (dt.h:90)
+==13611==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==13611==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==13611==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==13611== 
+==13611== Thread 1:
+==13611== Mismatched free() / delete / delete []
+==13611==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==13611==    by 0x4032B2: dt(image<float>*) [clone ._omp_fn.1] (dt.h:99)
+==13611==    by 0x40254E: main (dt.h:88)
+==13611==  Address 0xb6dcb10 is 0 bytes inside a block of size 16,384 alloc'd
+==13611==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==13611==    by 0x4032DD: dt(image<float>*) [clone ._omp_fn.1] (dt.h:90)
+==13611==    by 0x40254E: main (dt.h:88)
+==13611== 
+==13611== 
+==13611== HEAP SUMMARY:
+==13611==     in use at exit: 6,752 bytes in 11 blocks
+==13611==   total heap usage: 29,342 allocs, 29,331 frees, 478,340,276 bytes allocated
+==13611== 
+==13611== LEAK SUMMARY:
+==13611==    definitely lost: 0 bytes in 0 blocks
+==13611==    indirectly lost: 0 bytes in 0 blocks
+==13611==      possibly lost: 4,144 bytes in 7 blocks
+==13611==    still reachable: 2,608 bytes in 4 blocks
+==13611==         suppressed: 0 bytes in 0 blocks
+==13611== Rerun with --leak-check=full to see details of leaked memory
+==13611== 
+==13611== For counts of detected and suppressed errors, rerun with: -v
+==13611== ERROR SUMMARY: 7168 errors from 4 contexts (suppressed: 8 from 6)
+==13622== Memcheck, a memory error detector
+==13622== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==13622== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==13622== Command: ./dt input.pgm out1.pgm
+==13622== 
+==13622== Thread 8:
+==13622== Mismatched free() / delete / delete []
+==13622==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==13622==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==13622==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==13622==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==13622==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==13622==  Address 0x5fc2910 is 0 bytes inside a block of size 12,288 alloc'd
+==13622==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==13622==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==13622==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==13622==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==13622==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==13622== 
+==13622== Thread 1:
+==13622== Mismatched free() / delete / delete []
+==13622==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==13622==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==13622==    by 0x4024F1: main (dt.h:73)
+==13622==  Address 0x60474c0 is 0 bytes inside a block of size 12,288 alloc'd
+==13622==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==13622==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==13622==    by 0x4024F1: main (dt.h:73)
+==13622== 
+==10170== Memcheck, a memory error detector
+==10170== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==10170== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==10170== Command: ./dt input.pgm out1.pgm
+==10170== 
+==10170== Thread 5:
+==10170== Mismatched free() / delete / delete []
+==10170==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10170==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==10170==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10170==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10170==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10170==  Address 0x5fc2910 is 0 bytes inside a block of size 12,288 alloc'd
+==10170==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10170==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==10170==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10170==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10170==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10170== 
+==10170== Thread 1:
+==10170== Mismatched free() / delete / delete []
+==10170==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10170==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==10170==    by 0x4024F1: main (dt.h:73)
+==10170==  Address 0x60cc070 is 0 bytes inside a block of size 12,288 alloc'd
+==10170==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10170==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==10170==    by 0x4024F1: main (dt.h:73)
+==10170== 
+==10170== Thread 7:
+==10170== Mismatched free() / delete / delete []
+==10170==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10170==    by 0x4032B2: dt(image<float>*) [clone ._omp_fn.1] (dt.h:99)
+==10170==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10170==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10170==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10170==  Address 0xbc147d0 is 0 bytes inside a block of size 16,384 alloc'd
+==10170==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10170==    by 0x4032DD: dt(image<float>*) [clone ._omp_fn.1] (dt.h:90)
+==10170==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10170==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10170==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10170== 
+==10170== 
+==10170== HEAP SUMMARY:
+==10170==     in use at exit: 6,752 bytes in 11 blocks
+==10170==   total heap usage: 29,342 allocs, 29,331 frees, 478,340,276 bytes allocated
+==10170== 
+==10170== LEAK SUMMARY:
+==10170==    definitely lost: 0 bytes in 0 blocks
+==10170==    indirectly lost: 0 bytes in 0 blocks
+==10170==      possibly lost: 4,144 bytes in 7 blocks
+==10170==    still reachable: 2,608 bytes in 4 blocks
+==10170==         suppressed: 0 bytes in 0 blocks
+==10170== Rerun with --leak-check=full to see details of leaked memory
+==10170== 
+==10170== For counts of detected and suppressed errors, rerun with: -v
+==10170== ERROR SUMMARY: 7168 errors from 3 contexts (suppressed: 8 from 6)
+==10182== Memcheck, a memory error detector
+==10182== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==10182== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==10182== Command: ./dt input.pgm out1.pgm
+==10182== 
+==10182== Thread 5:
+==10182== Mismatched free() / delete / delete []
+==10182==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10182==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==10182==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10182==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10182==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10182==  Address 0x5fc2910 is 0 bytes inside a block of size 12,288 alloc'd
+==10182==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10182==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==10182==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10182==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10182==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10182== 
+==10182== Thread 1:
+==10182== Mismatched free() / delete / delete []
+==10182==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10182==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==10182==    by 0x4024F1: main (dt.h:73)
+==10182==  Address 0x60cc070 is 0 bytes inside a block of size 12,288 alloc'd
+==10182==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10182==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==10182==    by 0x4024F1: main (dt.h:73)
+==10182== 
+==10182== Thread 7:
+==10182== Mismatched free() / delete / delete []
+==10182==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10182==    by 0x4032B2: dt(image<float>*) [clone ._omp_fn.1] (dt.h:99)
+==10182==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10182==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10182==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10182==  Address 0xbc59df0 is 0 bytes inside a block of size 16,384 alloc'd
+==10182==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10182==    by 0x4032DD: dt(image<float>*) [clone ._omp_fn.1] (dt.h:90)
+==10182==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10182==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10182==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10182== 
+==10182== Thread 1:
+==10182== Mismatched free() / delete / delete []
+==10182==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10182==    by 0x4032B2: dt(image<float>*) [clone ._omp_fn.1] (dt.h:99)
+==10182==    by 0x40254E: main (dt.h:88)
+==10182==  Address 0x60dc1e0 is 0 bytes inside a block of size 16,384 alloc'd
+==10182==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10182==    by 0x4032DD: dt(image<float>*) [clone ._omp_fn.1] (dt.h:90)
+==10182==    by 0x40254E: main (dt.h:88)
+==10182== 
+==10182== 
+==10182== HEAP SUMMARY:
+==10182==     in use at exit: 6,752 bytes in 11 blocks
+==10182==   total heap usage: 29,342 allocs, 29,331 frees, 478,340,276 bytes allocated
+==10182== 
+==10182== LEAK SUMMARY:
+==10182==    definitely lost: 0 bytes in 0 blocks
+==10182==    indirectly lost: 0 bytes in 0 blocks
+==10182==      possibly lost: 4,144 bytes in 7 blocks
+==10182==    still reachable: 2,608 bytes in 4 blocks
+==10182==         suppressed: 0 bytes in 0 blocks
+==10182== Rerun with --leak-check=full to see details of leaked memory
+==10182== 
+==10182== For counts of detected and suppressed errors, rerun with: -v
+==10182== ERROR SUMMARY: 7168 errors from 4 contexts (suppressed: 8 from 6)
+==10190== Memcheck, a memory error detector
+==10190== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==10190== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==10190== Command: ./dt input.pgm out1.pgm
+==10190== 
+==10190== Thread 4:
+==10190== Mismatched free() / delete / delete []
+==10190==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10190==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==10190==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10190==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10190==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10190==  Address 0x5fc2910 is 0 bytes inside a block of size 12,288 alloc'd
+==10190==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10190==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==10190==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10190==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10190==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10190== 
+==10190== Thread 1:
+==10190== Mismatched free() / delete / delete []
+==10190==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10190==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==10190==    by 0x4024F1: main (dt.h:73)
+==10190==  Address 0x62def30 is 0 bytes inside a block of size 12,288 alloc'd
+==10190==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10190==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==10190==    by 0x4024F1: main (dt.h:73)
+==10190== 
+==10190== Thread 4:
+==10190== Mismatched free() / delete / delete []
+==10190==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10190==    by 0x4032B2: dt(image<float>*) [clone ._omp_fn.1] (dt.h:99)
+==10190==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10190==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10190==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10190==  Address 0xadf57e0 is 0 bytes inside a block of size 16,384 alloc'd
+==10190==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10190==    by 0x4032DD: dt(image<float>*) [clone ._omp_fn.1] (dt.h:90)
+==10190==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10190==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10190==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10190== 
+==10190== Thread 1:
+==10190== Mismatched free() / delete / delete []
+==10190==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10190==    by 0x4032B2: dt(image<float>*) [clone ._omp_fn.1] (dt.h:99)
+==10190==    by 0x40254E: main (dt.h:88)
+==10190==  Address 0xaf6e8f0 is 0 bytes inside a block of size 16,384 alloc'd
+==10190==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10190==    by 0x4032DD: dt(image<float>*) [clone ._omp_fn.1] (dt.h:90)
+==10190==    by 0x40254E: main (dt.h:88)
+==10190== 
+==10190== 
+==10190== HEAP SUMMARY:
+==10190==     in use at exit: 6,752 bytes in 11 blocks
+==10190==   total heap usage: 29,342 allocs, 29,331 frees, 478,340,276 bytes allocated
+==10190== 
+==10190== LEAK SUMMARY:
+==10190==    definitely lost: 0 bytes in 0 blocks
+==10190==    indirectly lost: 0 bytes in 0 blocks
+==10190==      possibly lost: 4,144 bytes in 7 blocks
+==10190==    still reachable: 2,608 bytes in 4 blocks
+==10190==         suppressed: 0 bytes in 0 blocks
+==10190== Rerun with --leak-check=full to see details of leaked memory
+==10190== 
+==10190== For counts of detected and suppressed errors, rerun with: -v
+==10190== ERROR SUMMARY: 7168 errors from 4 contexts (suppressed: 8 from 6)
+==10198== Memcheck, a memory error detector
+==10198== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==10198== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==10198== Command: ./dt input.pgm out1.pgm
+==10198== 
+==10198== Thread 8:
+==10198== Mismatched free() / delete / delete []
+==10198==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10198==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==10198==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10198==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10198==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10198==  Address 0x5fc2910 is 0 bytes inside a block of size 12,288 alloc'd
+==10198==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10198==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==10198==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10198==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10198==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10198== 
+==10198== Thread 1:
+==10198== Mismatched free() / delete / delete []
+==10198==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10198==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==10198==    by 0x4024F1: main (dt.h:73)
+==10198==  Address 0x61d57d0 is 0 bytes inside a block of size 12,288 alloc'd
+==10198==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10198==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==10198==    by 0x4024F1: main (dt.h:73)
+==10198== 
+==10198== Mismatched free() / delete / delete []
+==10198==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10198==    by 0x4032B2: dt(image<float>*) [clone ._omp_fn.1] (dt.h:99)
+==10198==    by 0x40254E: main (dt.h:88)
+==10198==  Address 0xbceaa90 is 0 bytes inside a block of size 16,384 alloc'd
+==10198==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10198==    by 0x4032DD: dt(image<float>*) [clone ._omp_fn.1] (dt.h:90)
+==10198==    by 0x40254E: main (dt.h:88)
+==10198== 
+==10198== Thread 8:
+==10198== Mismatched free() / delete / delete []
+==10198==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10198==    by 0x4032B2: dt(image<float>*) [clone ._omp_fn.1] (dt.h:99)
+==10198==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10198==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10198==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10198==  Address 0xb7b0f20 is 0 bytes inside a block of size 16,384 alloc'd
+==10198==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10198==    by 0x4032DD: dt(image<float>*) [clone ._omp_fn.1] (dt.h:90)
+==10198==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10198==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10198==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10198== 
+==10198== 
+==10198== HEAP SUMMARY:
+==10198==     in use at exit: 6,752 bytes in 11 blocks
+==10198==   total heap usage: 29,342 allocs, 29,331 frees, 478,340,276 bytes allocated
+==10198== 
+==10198== LEAK SUMMARY:
+==10198==    definitely lost: 0 bytes in 0 blocks
+==10198==    indirectly lost: 0 bytes in 0 blocks
+==10198==      possibly lost: 4,144 bytes in 7 blocks
+==10198==    still reachable: 2,608 bytes in 4 blocks
+==10198==         suppressed: 0 bytes in 0 blocks
+==10198== Rerun with --leak-check=full to see details of leaked memory
+==10198== 
+==10198== For counts of detected and suppressed errors, rerun with: -v
+==10198== ERROR SUMMARY: 7168 errors from 4 contexts (suppressed: 8 from 6)
+==10213== Memcheck, a memory error detector
+==10213== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==10213== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==10213== Command: ./dt input.pgm out1.pgm
+==10213== 
+==10213== Thread 8:
+==10213== Mismatched free() / delete / delete []
+==10213==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10213==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==10213==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10213==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10213==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10213==  Address 0x5fc2910 is 0 bytes inside a block of size 12,288 alloc'd
+==10213==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10213==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==10213==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10213==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10213==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10213== 
+==10213== Thread 1:
+==10213== Mismatched free() / delete / delete []
+==10213==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10213==    by 0x40348A: dt(image<float>*) [clone ._omp_fn.0] (dt.h:85)
+==10213==    by 0x4024F1: main (dt.h:73)
+==10213==  Address 0x60474c0 is 0 bytes inside a block of size 12,288 alloc'd
+==10213==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10213==    by 0x403406: dt(image<float>*) [clone ._omp_fn.0] (dt.h:75)
+==10213==    by 0x4024F1: main (dt.h:73)
+==10213== 
+==10213== Thread 7:
+==10213== Mismatched free() / delete / delete []
+==10213==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10213==    by 0x4032B2: dt(image<float>*) [clone ._omp_fn.1] (dt.h:99)
+==10213==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10213==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10213==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10213==  Address 0xbcbd6c0 is 0 bytes inside a block of size 16,384 alloc'd
+==10213==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10213==    by 0x4032DD: dt(image<float>*) [clone ._omp_fn.1] (dt.h:90)
+==10213==    by 0x53C1FB9: gomp_thread_start (team.c:115)
+==10213==    by 0x57E6AA0: start_thread (in /lib64/libpthread-2.12.so)
+==10213==    by 0x5AE4BCC: clone (in /lib64/libc-2.12.so)
+==10213== 
+==10213== Thread 1:
+==10213== Mismatched free() / delete / delete []
+==10213==    at 0x4C28016: operator delete(void*) (vg_replace_malloc.c:480)
+==10213==    by 0x4032B2: dt(image<float>*) [clone ._omp_fn.1] (dt.h:99)
+==10213==    by 0x40254E: main (dt.h:88)
+==10213==  Address 0x6168e90 is 0 bytes inside a block of size 16,384 alloc'd
+==10213==    at 0x4C29192: operator new[](unsigned long) (vg_replace_malloc.c:363)
+==10213==    by 0x4032DD: dt(image<float>*) [clone ._omp_fn.1] (dt.h:90)
+==10213==    by 0x40254E: main (dt.h:88)
+==10213== 
+==10213== 
+==10213== HEAP SUMMARY:
+==10213==     in use at exit: 6,752 bytes in 11 blocks
+==10213==   total heap usage: 29,342 allocs, 29,331 frees, 478,340,276 bytes allocated
+==10213== 
+==10213== LEAK SUMMARY:
+==10213==    definitely lost: 0 bytes in 0 blocks
+==10213==    indirectly lost: 0 bytes in 0 blocks
+==10213==      possibly lost: 4,144 bytes in 7 blocks
+==10213==    still reachable: 2,608 bytes in 4 blocks
+==10213==         suppressed: 0 bytes in 0 blocks
+==10213== Rerun with --leak-check=full to see details of leaked memory
+==10213== 
+==10213== For counts of detected and suppressed errors, rerun with: -v
+==10213== ERROR SUMMARY: 7168 errors from 4 contexts (suppressed: 8 from 6)
