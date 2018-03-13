@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #define INF 1E20
 
 #define THREADS 8
-#define CHUNKSIZE 1500000
+#define CHUNKSIZE 8
 
 /* dt of 1d function using squared distance */
 static float *dt(float *f, int n) {
@@ -69,59 +69,52 @@ static void dt(image<float> *im) {
   omp_set_num_threads(THREADS);
 
   int x =0,y=0;
-			#pragma omp parallel
-			{
-				auto time = omp_get_wtime();
-				int tID = omp_get_thread_num();
-		    //#pragma omp for schedule(guided) 
-		    for (int x = 0; x < width; x++) {
-		      float * f = new float[height];
-
-					#pragma omp for schedule(guided) 
-		      for (int y = 0; y < height; y++) {
-				    f[y] = imRef(im, x, y);
-				  }
-
-		      float * d = dt(f, height);
-					#pragma omp barrier
-					auto mid = omp_get_wtime();
-					printf("%i is done1 at %lf\n", tID, mid-time);				
-					#pragma omp for schedule(guided) 
-		      for (int y = 0; y < height; y++) {
-				    imRef(im, x, y) = d[y];
-				  }
-				  delete [] d;
-		      delete f;
-					printf("%i is done2 at %lf\n", tID,  omp_get_wtime()-mid);
-				}
-		//	}
-
-			//#pragma omp parallel lastprivate(e,g)
-			//{
-				//int tID = omp_get_thread_num();
-				time = omp_get_wtime();
-		   //#pragma omp for schedule(guided)
-		    for (y = 0; y < height; y++) {
+	#pragma omp parallel 
+	{
+	//cols
+		#pragma omp for schedule(guided)
+		for (y = 0; y < height; y++) {
 					
-		  		float * g = new float[width];
-					#pragma omp for schedule(guided)
-		  		for (x = 0; x < width; x++) {
-		  			g[x] = imRef(im, x, y);
-		  		}
-					#pragma omp barrier
-					auto mid = omp_get_wtime();
-					printf("%i is done3 at %lf\n", tID, mid-time);
-		  		float * e = dt(g, width);
-					#pragma omp for schedule(guided)
-		  		for (int x = 0; x < width; x++) {
-		  			imRef(im, x, y) = e[x];
-		  		}
-		      delete [] e;
-		      delete g;
-					printf("%i is done4 at %lf\n", tID, omp_get_wtime()-mid);
-		    }
+			float * g = new float[width];
+	//	#pragma omp for schedule(guided)
+		  for (x = 0; x < width; x++) {
+		  	g[x] = imRef(im, x, y);
+		  }
+
+		  float * e = dt(g, width);
+	//	#pragma omp for schedule(guided)
+		 	for (int x = 0; x < width; x++) {
+		  	imRef(im, x, y) = e[x];
+		  }
+		  delete [] e;
+		  delete g;
+		}
+		//		printf("%i is done1 at %lf\n", tID, omp_get_wtime()-time);
+	
+	//#pragma omp parallel 
+	//{
+		time = omp_get_wtime();
+		//tID = omp_get_thread_num();
+				//rows
+		#pragma omp for schedule(guided)
+		for (int x = 0; x < width; x++) {
+			float * f = new float[height];
+	//	#pragma omp for schedule(guided)
+			for (int y = 0; y < height; y++) {
+				f[y] = imRef(im, x, y);
 			}
 
+			float * d = dt(f, height);
+//		#pragma omp for schedule(guided)
+			for (int y = 0; y < height; y++) {
+				imRef(im, x, y) = d[y];
+			}
+			delete [] d;
+		  delete f;
+			}
+		//	printf("%i is done2 at %lf\n", tID,  omp_get_wtime()-time);
+	//}
+	}
 }
 
 /* dt of binary image using squared distance */
