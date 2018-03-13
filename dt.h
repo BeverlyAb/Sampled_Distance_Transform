@@ -70,53 +70,65 @@ static void dt(image<float> *im) {
 
   int x =0,y=0;
 	//row
-		auto time = omp_get_wtime();
-		int tID = omp_get_thread_num();
+		//auto time = omp_get_wtime();
+		//int tID = omp_get_thread_num();
+		#pragma omp parallel num_threads(THREADS)
+		{		
 		for (y = 0; y < height; y++) {			
 			float * g = new float[width];
-			time = omp_get_wtime();
-			#pragma omp parallel for schedule(guided)
+			//time = omp_get_wtime();
+		//	#pragma omp parallel for schedule(guided)
 		  for (x = 0; x < width; x++) {
 		  	g[x] = imRef(im, x, y);
 				
 		  }
+			
+			int tID = omp_get_thread_num();
+			auto time = omp_get_wtime();
+		  
+			float * e = dt(g, width);
 			printf("%i is done1 at %lf\n", tID, omp_get_wtime()-time);
-		  float * e = dt(g, width);
-			#pragma omp barrier
+		//	#pragma omp barrier
 
-			time = omp_get_wtime();
-		  #pragma omp parallel for schedule(guided)
+		//	time = omp_get_wtime();
+		 // #pragma omp parallel for schedule(guided)
 		 	for (int x = 0; x < width; x++) {
 		  	imRef(im, x, y) = e[x];
 			}
-			printf("%i is done2 at %lf\n", tID, omp_get_wtime()-time);
+			//printf("%i is done2 at %lf\n", tID, omp_get_wtime()-time);
 			delete [] e;
 		  delete g;
 		}
-	
+		}
 		//cols
+		#pragma omp parallel  num_threads(THREADS)
+		{	
+		int tID = omp_get_thread_num();
 		for (int x = 0; x < width; x++) {
 			float * f = new float[height];
-			time = omp_get_wtime();
-			#pragma omp parallel for schedule(guided)
+			//time = omp_get_wtime();
+			//#pragma omp parallel for schedule(guided)
 			for (int y = 0; y < height; y++) {
 				f[y] = imRef(im, x, y);
 			}
-			printf("%i is done3 at %lf\n", tID,  omp_get_wtime()-time);
-
+		//	printf("%i is done3 at %lf\n", tID,  omp_get_wtime()-time);
+			auto time = omp_get_wtime();
+				  
 			float * d = dt(f, height);
 		
-			#pragma omp barrier
-			time = omp_get_wtime();
-			#pragma omp parallel for schedule(guided)
+			printf("%i is done2 at %lf\n", tID, omp_get_wtime()-time);	
+		
+		//	#pragma omp barrier
+			//time = omp_get_wtime();
+		//	#pragma omp parallel for schedule(guided)
 			for (int y = 0; y < height; y++) {
 				imRef(im, x, y) = d[y];
 			}
-			printf("%i is done4 at %lf\n", tID,  omp_get_wtime()-time);
+		//	printf("%i is done4 at %lf\n", tID,  omp_get_wtime()-time);
 			delete [] d;
 		  delete f;
 			}
-		
+		}
 }
 
 /* dt of binary image using squared distance */
