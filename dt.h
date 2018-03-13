@@ -69,54 +69,54 @@ static void dt(image<float> *im) {
   omp_set_num_threads(THREADS);
 
   int x =0,y=0;
-	#pragma omp parallel 
-	{
-	int tID = omp_get_thread_num();
-	auto time = omp_get_wtime();
-	//cols
-		#pragma omp for schedule(guided)
-		for (y = 0; y < height; y++) {
-					
+	//row
+		auto time = omp_get_wtime();
+		int tID = omp_get_thread_num();
+		for (y = 0; y < height; y++) {			
 			float * g = new float[width];
-	//	#pragma omp for schedule(guided)
+			time = omp_get_wtime();
+			#pragma omp parallel for schedule(guided)
 		  for (x = 0; x < width; x++) {
 		  	g[x] = imRef(im, x, y);
+				
 		  }
-
+			printf("%i is done1 at %lf\n", tID, omp_get_wtime()-time);
 		  float * e = dt(g, width);
-	//	#pragma omp for schedule(guided)
+			#pragma omp barrier
+
+			time = omp_get_wtime();
+		  #pragma omp parallel for schedule(guided)
 		 	for (int x = 0; x < width; x++) {
 		  	imRef(im, x, y) = e[x];
-		  }
-		  delete [] e;
+			}
+			printf("%i is done2 at %lf\n", tID, omp_get_wtime()-time);
+			delete [] e;
 		  delete g;
 		}
-		//		printf("%i is done1 at %lf\n", tID, omp_get_wtime()-time);
 	
-	//#pragma omp parallel 
-	//{
-		time = omp_get_wtime();
-		//tID = omp_get_thread_num();
-				//rows
-		#pragma omp for schedule(guided)
+		//cols
 		for (int x = 0; x < width; x++) {
 			float * f = new float[height];
-	//	#pragma omp for schedule(guided)
+			time = omp_get_wtime();
+			#pragma omp parallel for schedule(guided)
 			for (int y = 0; y < height; y++) {
 				f[y] = imRef(im, x, y);
 			}
+			printf("%i is done3 at %lf\n", tID,  omp_get_wtime()-time);
 
 			float * d = dt(f, height);
-//		#pragma omp for schedule(guided)
+		
+			#pragma omp barrier
+			time = omp_get_wtime();
+			#pragma omp parallel for schedule(guided)
 			for (int y = 0; y < height; y++) {
 				imRef(im, x, y) = d[y];
 			}
+			printf("%i is done4 at %lf\n", tID,  omp_get_wtime()-time);
 			delete [] d;
 		  delete f;
 			}
-		//	printf("%i is done2 at %lf\n", tID,  omp_get_wtime()-time);
-	//}
-	}
+		
 }
 
 /* dt of binary image using squared distance */
