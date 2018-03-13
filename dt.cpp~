@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
     string in_name = "img/" + files[i];
     //cout << in_name << endl;
    // if(in_name == "img/vg_42.pgm"){
-	 	if(in_name == "imgs/canny.pgm"){
+	 	if(in_name == "img/canny.pgm"){
       image<uchar> *input = loadPGM(in_name.c_str());
 
       auto start_wall_clock = std::chrono::steady_clock::now();

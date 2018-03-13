@@ -1,0 +1,15 @@
+0 is done1 at 2.192857
+0 is done2 at 0.326114
+2550381
+0 is done1 at 2.204202
+0 is done2 at 0.325774
+2562270
+0 is done1 at 2.273975
+0 is done2 at 0.326204
+2631763
+0 is done1 at 2.189727
+0 is done2 at 0.325997
+2548246
+0 is done1 at 2.189321
+0 is done2 at 0.326116
+2546678

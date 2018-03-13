@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
       auto start_wall_clock = std::chrono::steady_clock::now();
       image<float> *out = dt(input);
       auto finish_wall_clock = std::chrono::steady_clock::now();
-      cout << (finish_wall_clock - start_wall_clock) / std::chrono::microseconds(1) << "\n";
+     // cout << (finish_wall_clock - start_wall_clock) / std::chrono::microseconds(1) << "\n";
 
       for (int y = 0; y < out->height(); y++) {
         for (int x = 0; x < out->width(); x++) {
