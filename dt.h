@@ -69,7 +69,7 @@ static void dt(image<float> *im) {
   omp_set_num_threads(THREADS);
 
   int x =0,y=0;
-	#pragma omp parallel num_threads(1)
+	#pragma omp parallel num_threads(THREADS)
 	{	
 	//cols
 		int tID = omp_get_thread_num();
@@ -83,7 +83,6 @@ static void dt(image<float> *im) {
 			}	
 		
 			float * d = dt(f, height);					//transform
-			//printf("%i %lf\n",tID,omp_get_wtime() - time);	// 8			
 		
 			for (int y = 0; y < height; y++) {	//update im
 				imRef(im, x, y) = d[y];
@@ -92,24 +91,27 @@ static void dt(image<float> *im) {
 			delete [] d;
 		  delete f;
 		}
-		printf("%lf\n",omp_get_wtime() - time);	// 1
-
+		
 		//row
-	//	time = omp_get_wtime();	
-		//#pragma omp for schedule(dynamic,CHUNKSIZE)	
+		
+		#pragma omp for schedule(dynamic,CHUNKSIZE)	
 		for (y = 0; y < height; y++) {			
 			float * g = new float[width];
+			
 		  for (x = 0; x < width; x++) { //access im
 		  	g[x] = imRef(im, x, y);
-				
 		  }
+				
+		
+			//printf("%lf\n",omp_get_wtime() - time);	// 1
+
 
 			float * e = dt(g, width);			//transform
-			
+			time = omp_get_wtime();	
 		 	for (int x = 0; x < width; x++) {//update im
 		  	imRef(im, x, y) = e[x];
 			}
-			
+			printf("%i %lf\n",tID,omp_get_wtime() - time);	// 8		
 			delete [] e;
 		  delete g;
 		}
