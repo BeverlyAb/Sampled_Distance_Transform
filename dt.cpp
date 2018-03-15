@@ -45,15 +45,31 @@ int main(int argc, char **argv) {
   int height = input->height();
   image<uchar> *out = new image<uchar>(width, height, true);
    int i,j;
-for(i=0; i<width; i++) 
-{  for(j=0; j<height; j++)
+// for(i=0; i<height; i++) 
+// {  for(j=0; j<width; j++)
+//    { 
+//      int temp = imRef(input,i,j);
+//      imRef(out,i,j)=imRef(input,j,i);
+//      imRef(out,j,i) = temp;
+     
+//    }
+// }
+
+// for n = 0 to N - 2
+//     for m = n + 1 to N - 1
+//         swap A(n,m) with A(m,n)
+
+for(i=0; i<height-2; i++) 
+{  for(j=i; j<width-1; j++)
    { 
-     int temp = imRef(input,i,j);
-     imRef(out,i,j)=imRef(input,j,i);
-     imRef(out,j,i) = temp;
+     uchar temp = input->data[i*width + j];
+     uchar temp2 = input->data[j*width+i];
+     input->data[i*width+j]=temp2;
+     input->data[j*width+i] = temp;
      
    }
 }
+
   // // compute dt
   // image<float> *out = dt(input);
 
@@ -78,7 +94,7 @@ for(i=0; i<width; i++)
   // }
 
   // save output
-  savePGM(out, output_name);
+  savePGM(input, output_name);
 
   delete input;
  delete out;
