@@ -23,8 +23,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 #include <algorithm>
 #include "image.h"
-
+//typedef unsigned char uchar;
+#include "misc.h"
 #define INF 1E20
+
 
 void transpose_UCHAR(image<uchar> *input)
 {
@@ -61,6 +63,7 @@ void transpose_FLOAT(image<float> *input)
   }
 
 }
+
 
 
 /* dt of 1d function using squared distance */
@@ -102,7 +105,17 @@ static void dt(image<float> *im) {
   int height = im->height();
   float *f = new float[std::max(width,height)];
 
-  
+  // transform along columns
+  for (int x = 0; x < width; x++) {
+    for (int y = 0; y < height; y++) {
+      f[y] = imRef(im, x, y);
+    }
+    float *d = dt(f, height);
+    for (int y = 0; y < height; y++) {
+      imRef(im, x, y) = d[y];
+    }
+    delete [] d;
+  }
 
   // transform along rows
   for (int y = 0; y < height; y++) {
@@ -115,35 +128,6 @@ static void dt(image<float> *im) {
     }
     delete [] d;
   }
-
-
-
-//   for(int i=0; i<height-2; i++) 
-// {  for(int j=i; j<width-1; j++)
-//    { 
-//      uchar temp = im->data[i*width + j];
-//      uchar temp2 = im->data[j*width+i];
-//      im->data[i*width+j]=temp2;
-//      im->data[j*width+i] = temp;
-     
-//    }
-// }
-
- // transform along columns
-  for (int x = 0; x < width; x++) {
-    for (int y = 0; y < height; y++) {
-      f[y] = imRef(im, x, y);
-    }
-    float *d = dt(f, height);
-    for (int y = 0; y < height; y++) {
-      imRef(im, x, y) = d[y];
-    }
-    delete [] d;
-  }
-
-
-
-
 
   delete f;
 }
