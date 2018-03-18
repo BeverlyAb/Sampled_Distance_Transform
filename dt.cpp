@@ -44,9 +44,12 @@ int main(int argc, char **argv) {
 
  image<float> *out = dt(input);
 
+  printf("Main - final Res\n");
+  print_values(out,3,3);
+
 
  
-  transpose_UCHAR(input);
+  //transpose_UCHAR(input);
 
 
 
@@ -62,8 +65,15 @@ int main(int argc, char **argv) {
    }
 
   // convert to grayscale
-  image<uchar> *gray = imageFLOATtoUCHAR(out);
+  printf("Values_before_gray_After_root\n");
+  print_values(out,3,3);
 
+
+  image<uchar> *gray = imageFLOATtoUCHAR(out,0,112);
+
+
+  printf("\nGray - final  Res\n");
+  print_values_UCHAR(gray,3,3);
 
   savePGM(gray, output_name);
 

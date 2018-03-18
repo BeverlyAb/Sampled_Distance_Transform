@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #define	RED_WEIGHT	0.299
 #define GREEN_WEIGHT	0.587
 #define BLUE_WEIGHT	0.114
+#define UCHAR_MAX 255
 
 static image<uchar> *imageRGBtoGRAY(image<rgb> *input) {
   int width = input->width();
@@ -99,8 +100,8 @@ static image<uchar> *imageFLOATtoUCHAR(image<float> *input,
   float scale = UCHAR_MAX / (max - min);
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
-      uchar val = (uchar)((imRef(input, x, y) - min) * scale);
-      imRef(output, x, y) = bound(val, (uchar)0, (uchar)UCHAR_MAX);
+      uchar val = (uchar)((input->data[y*width+x] - min) * scale);
+      output->data[y*width+x] = bound(val, (uchar)0, (uchar)UCHAR_MAX);
     }
   }
   return output;
@@ -109,6 +110,7 @@ static image<uchar> *imageFLOATtoUCHAR(image<float> *input,
 static image<uchar> *imageFLOATtoUCHAR(image<float> *input) {
   float min, max;
   min_max(input, &min, &max);
+  printf("min =%0.1f max=%0.1f",min,max);
   return imageFLOATtoUCHAR(input, min, max);
 }
 
@@ -173,5 +175,10 @@ static image<uchar> *imageSHORTtoUCHAR(image<short> *input) {
   min_max(input, &min, &max);
   return imageSHORTtoUCHAR(input, min, max);
 }
+
+
+
+
+
 
 #endif

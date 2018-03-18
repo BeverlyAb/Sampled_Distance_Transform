@@ -56,11 +56,50 @@ void transpose_FLOAT(image<float> *input)
       float temp2 = input->data[j*width+i];
       input->data[i*width+j]=temp2;
       input->data[j*width+i] = temp;
+      printf("%0.1f %0.1f",temp,temp2);
       
     }
+    printf("\n");
   }
 
 }
+
+void print_values(image<float> *input,int num_rows,int num_cols)
+{
+  int width = input->width();
+  int height = input->height();
+  num_rows = num_rows > height/2 ? height/2 : num_rows;
+  num_cols = num_rows > width/2 ? height/2 : num_cols;
+  for(int i=height/2;i<(height/2)+num_rows;i++)
+  {
+    for(int j=width/2;j<(width/2)+num_cols;j++)
+    {
+        printf("%0.1f ",input->data[i*width+j]);
+    }
+    printf("\n");
+  }
+
+
+}
+
+void print_values_UCHAR(image<uchar> *input,int num_rows,int num_cols)
+{
+  int width = input->width();
+  int height = input->height();
+  num_rows = num_rows > height/2 ? height/2 : num_rows;
+  num_cols = num_rows > width/2 ? height/2 : num_cols;
+  for(int i=height/2;i<(height/2)+num_rows;i++)
+  {
+    for(int j=width/2;j<(width/2)+num_cols;j++)
+    {
+        printf("%d ",input->data[i*width+j]);
+    }
+    printf("\n");
+  }
+
+
+}
+
 
 
 /* dt of 1d function using squared distance */
@@ -102,7 +141,13 @@ static void dt(image<float> *im) {
   int height = im->height();
   float *f = new float[std::max(width,height)];
 
-  
+  printf("Beginning\n");
+  // print_values(im,3,3);
+  // for(int p=0;p<10;p++)printf("___________________-----------\n\n\n\n\n\n\n");
+  printf(" %0.1f ",im->data[100*200+100]);
+
+  printf("One value above ---\n");
+
 
   // transform along rows
   for (int y = 0; y < height; y++) {
@@ -115,33 +160,87 @@ static void dt(image<float> *im) {
     }
     delete [] d;
   }
+  int method_new = 1;
+  if(method_new == 1)
+  {
+    printf("--------NEW METHOD------\n");
 
+    printf("Before_ trans");
+    print_values(im,3,3);
 
-
-//   for(int i=0; i<height-2; i++) 
-// {  for(int j=i; j<width-1; j++)
-//    { 
-//      uchar temp = im->data[i*width + j];
-//      uchar temp2 = im->data[j*width+i];
-//      im->data[i*width+j]=temp2;
-//      im->data[j*width+i] = temp;
-     
-//    }
-// }
-
- // transform along columns
-  for (int x = 0; x < width; x++) {
-    for (int y = 0; y < height; y++) {
-      f[y] = imRef(im, x, y);
+      for(int i=0; i<height-2; i++) 
+    {  for(int j=i; j<width-1; j++)
+      { 
+        float temp = im->data[i*width + j];
+        float temp2 = im->data[j*width+i];
+        im->data[i*width+j]= temp2;
+        im->data[j*width+i] = temp;
+        
+      }
     }
-    float *d = dt(f, height);
+
+    //printf("Before_ trans");
+    // print_values(im,3,3);
+    //    transpose_FLOAT(im);
+    printf("After_ trans");
+    print_values(im,3,3);
+
+    // transform along rows
     for (int y = 0; y < height; y++) {
-      imRef(im, x, y) = d[y];
+      for (int x = 0; x < width; x++) {
+        f[x] = imRef(im, x, y);
+      }
+      float *d = dt(f, width);
+      for (int x = 0; x < width; x++) {
+        imRef(im, x, y) = d[x];
+      }
+      delete [] d;
     }
-    delete [] d;
+
+
+        for(int i=0; i<height-2; i++) 
+    {  for(int j=i; j<width-1; j++)
+      { 
+        float temp = im->data[i*width + j];
+        float temp2 = im->data[j*width+i];
+        im->data[i*width+j]= temp2;
+        im->data[j*width+i] = temp;
+        
+      }
+    }
+
+
+
+
+    printf("After_row-andtrans");
+    print_values(im,3,3);
+    printf("---END NEW----\n");
+  }
+  else
+  {
+      // transform along columns
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        f[y] = imRef(im, x, y);
+      }
+      float *d = dt(f, height);
+      for (int y = 0; y < height; y++) {
+        imRef(im, x, y) = d[y];
+      }
+      delete [] d;
+    }
+
   }
 
 
+  printf("Final Res\n");
+    print_values(im,3,3);
+
+
+printf("\nAfter\n");
+  // print_values(im,3,3);
+  // for(int p=0;p<10;p++)printf("___________________-----------\n\n\n\n\n\n\n");
+  printf(" %0.1f \n\n",im->data[100*200+100]);
 
 
 
