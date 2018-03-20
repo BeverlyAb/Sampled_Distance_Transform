@@ -64,7 +64,8 @@ int main(int argc, char **argv) {
   // load input
   //image<uchar> *input = loadPBM(input_name);
 
-  string dir = string("./img/");
+		string dir = string("./img/");
+//  string dir = string("./img/vg/");
   vector<string> files = vector<string>();
 
   getdir(dir,files);
@@ -75,10 +76,11 @@ int main(int argc, char **argv) {
   for (unsigned int i = 0; i < files.size();i++)//change 5 to files.size()
   {
     string a = "Before loading";
-    string in_name = "img/" + files[i];
+		string in_name = "img/" + files[i];
+    //string in_name = "img/vg/" + files[i];
     //cout << in_name << endl;
-   // if(in_name == "img/vg_42.pgm"){
-	 	if(in_name == "img/canny.pgm"){
+    if(in_name == "img/vg_1.pgm"){
+	// 	if(in_name == "img/vg/78m.pgm"){
       image<uchar> *input = loadPGM(in_name.c_str());
 
       auto start_wall_clock = std::chrono::steady_clock::now();

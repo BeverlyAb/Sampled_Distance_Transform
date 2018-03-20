@@ -73,14 +73,16 @@ static void dt(image<float> *im) {
 	{	
 	//cols
 		int tID = omp_get_thread_num();
-			auto time = omp_get_wtime();
-//		#pragma omp for schedule(dynamic,CHUNKSIZE)	
+		
+		#pragma omp for schedule(dynamic,CHUNKSIZE)	
 		for (int x = 0; x < width; x++) {
 			float * f = new float[height];
 			
+			auto time = omp_get_wtime();
 			for (int y = 0; y < height; y++) {	//access im
 				f[y] = imRef(im, x, y);
 			}	
+			printf("%i %lf\n",tID,omp_get_wtime() - time);	// 8	
 		
 			float * d = dt(f, height);					//transform
 		
@@ -92,12 +94,11 @@ static void dt(image<float> *im) {
 		  delete f;
 		}
 		
-		//row
-		
-		#pragma omp for schedule(dynamic,CHUNKSIZE)	
+		//row	
+		#pragma omp for schedule(dynamic)	
 		for (y = 0; y < height; y++) {			
 			float * g = new float[width];
-			
+			//time = omp_get_wtime();	
 		  for (x = 0; x < width; x++) { //access im
 		  	g[x] = imRef(im, x, y);
 		  }
@@ -105,19 +106,18 @@ static void dt(image<float> *im) {
 		
 			//printf("%lf\n",omp_get_wtime() - time);	// 1
 
-
+		
 			float * e = dt(g, width);			//transform
-			time = omp_get_wtime();	
+		
 		 	for (int x = 0; x < width; x++) {//update im
 		  	imRef(im, x, y) = e[x];
 			}
-			printf("%i %lf\n",tID,omp_get_wtime() - time);	// 8		
+			
 			delete [] e;
 		  delete g;
 		}
 	//	printf("%i %lf\n",tID,omp_get_wtime() - time);			
 	}
-
 }
 
 /* dt of binary image using squared distance */
