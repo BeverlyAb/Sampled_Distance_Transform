@@ -1,61 +1,124 @@
 here
-.
-here
-.
-here
-.
-here
-. /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/
-here
-/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/.
-here
-/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/..
-here
-/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/.
-here
-/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/.
-here
-.
-/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/.
-Error(2) opening /img/vgFinal/
-here
-.
-/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/.
-here
-.
-/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/.
-..
-/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/..
-10m.pgm
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/10m.pgm
-11m.pgm
+-------------- 10m.pgm ------------------
+114992
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/11m.pgm
-1point7.pgm
+-------------- 11m.pgm ------------------
+121092
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/1point7.pgm
-20m.pgm
+-------------- 1point7.pgm ------------------
+23895
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/20m.pgm
-2.pgm
+-------------- 20m.pgm ------------------
+222620
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/2.pgm
-50m.pgm
+-------------- 2.pgm ------------------
+22249
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/50m.pgm
-6m.pgm
+-------------- 50m.pgm ------------------
+488544
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/6m.pgm
-6.pgm
+-------------- 6m.pgm ------------------
+70579
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/6.pgm
-78m.pgm
+-------------- 6.pgm ------------------
+71342
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/78m.pgm
-point5.pgm
+-------------- 78m.pgm ------------------
+774503
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/point5.pgm
+-------------- point5.pgm ------------------
+7882
 here
-/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/.
-/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/..
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/10m.pgm
+-------------- 10m.pgm ------------------
+114763
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/11m.pgm
+-------------- 11m.pgm ------------------
+123177
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/1point7.pgm
+-------------- 1point7.pgm ------------------
+22492
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/20m.pgm
+-------------- 20m.pgm ------------------
+212059
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/2.pgm
+-------------- 2.pgm ------------------
+28287
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/50m.pgm
+-------------- 50m.pgm ------------------
+494048
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/6m.pgm
+-------------- 6m.pgm ------------------
+71222
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/6.pgm
+-------------- 6.pgm ------------------
+71754
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/78m.pgm
+-------------- 78m.pgm ------------------
+728810
 /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/point5.pgm
+-------------- point5.pgm ------------------
+7702
+here
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/10m.pgm
+-------------- 10m.pgm ------------------
+116262
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/11m.pgm
+-------------- 11m.pgm ------------------
+116585
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/1point7.pgm
+-------------- 1point7.pgm ------------------
+25920
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/20m.pgm
+-------------- 20m.pgm ------------------
+214633
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/2.pgm
+-------------- 2.pgm ------------------
+28267
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/50m.pgm
+-------------- 50m.pgm ------------------
+466348
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/6m.pgm
+-------------- 6m.pgm ------------------
+69781
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/6.pgm
+-------------- 6.pgm ------------------
+73769
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/78m.pgm
+-------------- 78m.pgm ------------------
+709797
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/point5.pgm
+-------------- point5.pgm ------------------
+7562
+here
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/10m.pgm
+-------------- 10m.pgm ------------------
+275516
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/11m.pgm
+-------------- 11m.pgm ------------------
+283377
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/1point7.pgm
+-------------- 1point7.pgm ------------------
+32010
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/20m.pgm
+-------------- 20m.pgm ------------------
+545006
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/2.pgm
+-------------- 2.pgm ------------------
+53868
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/50m.pgm
+-------------- 50m.pgm ------------------
+1403895
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/6m.pgm
+-------------- 6m.pgm ------------------
+145209
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/6.pgm
+-------------- 6.pgm ------------------
+152499
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/78m.pgm
+-------------- 78m.pgm ------------------
+2244463
+/data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/point5.pgm
+-------------- point5.pgm ------------------
+12883

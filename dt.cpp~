@@ -66,17 +66,15 @@ int main(int argc, char **argv) {
   vector<string> files = vector<string>();
 
   getdir(dir,files);
-	cout << "here\n";
-  for (unsigned int i = 0; i < files.size();i++)
+  for (unsigned int i = 2; i < files.size();i++)//start at 2, avoid '.' and '..'
   {
-		cout << files[i].c_str() << endl;
 		char name [100];
 		strcpy(name,input_name);
 		strcat(name, files[i].c_str());
-		cout << name << endl;
-  	//image<uchar> *input = loadPGM(name);
 
-  /*  auto start_wall_clock = std::chrono::steady_clock::now();
+  	image<uchar> *input = loadPGM(name);
+
+    auto start_wall_clock = std::chrono::steady_clock::now();
     image<float> *out = dt(input);
     auto finish_wall_clock = std::chrono::steady_clock::now();
 			
@@ -92,12 +90,15 @@ int main(int argc, char **argv) {
     image<uchar> *gray = imageFLOATtoUCHAR(out);
 
     // save output
-    string out_name = files[i].c_str();
-    savePGM(gray, out_name.c_str());
+    char out_name [100];
+		strcpy(out_name, output_name);
+		strcat(out_name,"result");
+		strcat(out_name,files[i].c_str());
+    savePGM(gray, out_name);
 
       delete input;
       delete out;
       delete gray;
-*/  }
+  }
 
 }
