@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #define INF 1E20
 
 #define THREADS 8
-#define CHUNKSIZE 100
+#define CHUNKSIZE 10
 
 /* dt of 1d function using squared distance */
 static float *dt(float *f, int n) {
@@ -119,17 +119,14 @@ static void dt(image<float> *im) {
 }
 
 /* dt of binary image using squared distance */
-static image<float> *dt(image<uchar> *im, uchar on = 1) {
+static image<float> *dt(image<uchar> *im, uchar on = 0) {
   int width = im->width();
   int height = im->height();
 
   image<float> *out = new image<float>(width, height, false);
   for(int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
-      if (imRef(im, x, y) == on)
-	     imRef(out, x, y) = 0;
-      else
-	     imRef(out, x, y) = INF;
+	     imRef(out, x, y) = imRef(im,x,y);
     }
   }
 
