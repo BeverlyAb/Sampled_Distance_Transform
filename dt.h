@@ -24,7 +24,36 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #include <algorithm>
 #include "image.h"
 
+//#define INF 1E20
 #define INF 1E20
+
+
+#include <iterator>  // std::ostream_iterator
+#include <algorithm> // std::swap (until C++11)
+#include <vector>
+
+template<class RandomIterator>
+void transpose(RandomIterator first, RandomIterator last, int m)
+{
+    const int mn1 = (last - first - 1);
+    const int n   = (last - first) / m;
+    std::vector<bool> visited(last - first);
+    RandomIterator cycle = first;
+    while (++cycle != last) {
+        if (visited[cycle - first])
+            continue;
+        int a = cycle - first;
+        do  {
+            a = a == mn1 ? mn1 : (n * a) % mn1;
+            std::swap(*(first + a), *cycle);
+            visited[a] = true;
+        } while ((first + a) != cycle);
+    }
+}
+
+
+
+
 
 void transpose_UCHAR(image<uchar> *input)
 {
@@ -160,7 +189,7 @@ static void dt(image<float> *im) {
     }
     delete [] d;
   }
-  int method_new = 1;
+  int method_new = 0;
   if(method_new == 1)
   {
     printf("--------NEW METHOD------\n");
@@ -198,16 +227,16 @@ static void dt(image<float> *im) {
     }
 
 
-        for(int i=0; i<height-2; i++) 
-    {  for(int j=i; j<width-1; j++)
-      { 
-        float temp = im->data[i*width + j];
-        float temp2 = im->data[j*width+i];
-        im->data[i*width+j]= temp2;
-        im->data[j*width+i] = temp;
+    //     for(int i=0; i<height-2; i++) 
+    // {  for(int j=i; j<width-1; j++)
+    //   { 
+    //     float temp = im->data[i*width + j];
+    //     float temp2 = im->data[j*width+i];
+    //     im->data[i*width+j]= temp2;
+    //     im->data[j*width+i] = temp;
         
-      }
-    }
+    //   }
+    // }
 
 
 
@@ -266,5 +295,116 @@ static image<float> *dt(image<uchar> *im, uchar on = 1) {
   dt(out);
   return out;
 }
+//---------------Slight diff - inplace function------------//
+
+void dt_i(float *f, int n) {
+  float *d = new float[n];
+  int *v = new int[n];
+  float *z = new float[n+1];
+  int k = 0;
+  v[0] = 0;
+  z[0] = -INF;
+  z[1] = +INF;
+  for (int q = 1; q <= n-1; q++) {
+    float s  = ((f[q]+square(q))-(f[v[k]]+square(v[k])))/(2*q-2*v[k]);
+    while (s <= z[k]) {
+      k--;
+      s  = ((f[q]+square(q))-(f[v[k]]+square(v[k])))/(2*q-2*v[k]);
+    }
+    k++;
+    v[k] = q;
+    z[k] = s;
+    z[k+1] = +INF;
+  }
+
+  k = 0;
+  for (int q = 0; q <= n-1; q++) {
+    while (z[k+1] < q)
+      k++;
+    d[q] = square(q-v[k]) + f[v[k]];
+  }
+
+  for(int q=0;q<n;q++)
+  { 
+    f[q] = d[q];
+  }
+
+  delete [] v;
+  delete [] z;
+  delete [] d;
+}
+void dt_i_only_row(image<float> *im)
+{
+   int width = im->width();
+  int height = im->height();
+  float *f = new float[std::max(width,height)];
+
+// transform along rows
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      f[x] = imRef(im, x, y);
+    }
+    dt_i(f, width);
+    for (int x = 0; x < width; x++) {
+      imRef(im, x, y) = f[x];
+    }
+    //delete [] d;
+  
+}
+}
+void dt_i(image<float> *im) {
+  int width = im->width();
+  int height = im->height();
+  float *f = new float[std::max(width,height)];
+
+// transform along rows
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      f[x] = imRef(im, x, y);
+    }
+    dt_i(f, width);
+    for (int x = 0; x < width; x++) {
+      imRef(im, x, y) = f[x];
+    }
+    //delete [] d;
+  }
+
+
+
+  // transform along columns
+  for (int x = 0; x < width; x++) {
+    for (int y = 0; y < height; y++) {
+      f[y] = imRef(im, x, y);
+    }
+    dt_i(f, height);
+    for (int y = 0; y < height; y++) {
+      imRef(im, x, y) = f[y];
+    }
+    //delete [] d;
+  }
+
+  
+
+  delete f;
+}
+
+static image<float> *dt_i(image<uchar> *im, uchar on = 1) {
+  int width = im->width();
+  int height = im->height();
+
+  image<float> *out = new image<float>(width, height, false);
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      if (imRef(im, x, y) == on)
+	imRef(out, x, y) = 0;
+      else
+	imRef(out, x, y) = INF;
+    }
+  }
+
+  dt_i(out);
+  return out;
+}
+
 
 #endif
