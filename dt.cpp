@@ -44,8 +44,8 @@ int getdir (string dir, vector<string> &files)
         return errno;
     }
     while ((dirp = readdir(dp)) != NULL) {
-        if(dirp->d_name == "vg.pgm")
-          cout << dirp->d_name << endl;
+       // if(dirp->d_name == "vg.pgm")
+        //  cout << dirp->d_name << endl;
         files.push_back(string(dirp->d_name));
     }
     closedir(dp);
@@ -62,49 +62,41 @@ int main(int argc, char **argv) {
   char *output_name = argv[2];
 
   // load input
-  //image<uchar> *input = loadPBM(input_name);
-
-		string dir = string("./img/");
-//  string dir = string("./img/vg/");
+	string dir = input_name;
   vector<string> files = vector<string>();
 
   getdir(dir,files);
-
-//  auto start_wall_clock = std::chrono::steady_clock::now();
-//  #pragma omp parallel for num_threads(THREADS)
-//  #pragma single nowait
-  for (unsigned int i = 0; i < files.size();i++)//change 5 to files.size()
+	cout << "here\n";
+  for (unsigned int i = 0; i < files.size();i++)
   {
-    string a = "Before loading";
-		string in_name = "img/" + files[i];
-    //string in_name = "img/vg/" + files[i];
-    //cout << in_name << endl;
-    if(in_name == "img/vg_1.pgm"){
-	// 	if(in_name == "img/vg/78m.pgm"){
-      image<uchar> *input = loadPGM(in_name.c_str());
+		char name [100];
+		strcpy(name,input_name);
+		strcat(name, files[i].c_str());
+		cout << name << endl;
+  	//image<uchar> *input = loadPGM(name);
 
-      auto start_wall_clock = std::chrono::steady_clock::now();
-      image<float> *out = dt(input);
-      auto finish_wall_clock = std::chrono::steady_clock::now();
-     // cout << (finish_wall_clock - start_wall_clock) / std::chrono::microseconds(1) << "\n";
+  /*  auto start_wall_clock = std::chrono::steady_clock::now();
+    image<float> *out = dt(input);
+    auto finish_wall_clock = std::chrono::steady_clock::now();
+			
+		cout << "-------------- " << files[i].c_str() << " ------------------\n";
+    cout << (finish_wall_clock - start_wall_clock) / std::chrono::microseconds(1) << "\n";
 
-      for (int y = 0; y < out->height(); y++) {
-        for (int x = 0; x < out->width(); x++) {
-          imRef(out, x, y) = sqrt(imRef(out, x, y));
-        }
-      }
+    for (int y = 0; y < out->height(); y++) {
+    	for (int x = 0; x < out->width(); x++) {
+      	imRef(out, x, y) = sqrt(imRef(out, x, y));
+       }
+     }
+		// convert to grayscale
+    image<uchar> *gray = imageFLOATtoUCHAR(out);
 
-      // convert to grayscale
-      image<uchar> *gray = imageFLOATtoUCHAR(out);
-
-      // save output
-     string out_name = "result_images/res_"  + files[i];
-      savePGM(gray, out_name.c_str());
+    // save output
+    string out_name = files[i].c_str();
+    savePGM(gray, out_name.c_str());
 
       delete input;
       delete out;
       delete gray;
-    }
-  }
+*/  }
 
 }

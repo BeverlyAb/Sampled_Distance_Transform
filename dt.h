@@ -103,14 +103,13 @@ static void dt(image<float> *im) {
 		  }
 		
 			//printf("%lf\n",omp_get_wtime() - time);	// 1
-
 		
 			float * e = dt(g, width);			//transform
-			auto time = omp_get_wtime();
+			//auto time = omp_get_wtime();
 		 	for (int x = 0; x < width; x++) {//update im
 		  	imRef(im, x, y) = e[x];
 			}
-			printf("%i %lf\n",tID,omp_get_wtime() - time);	// 8			
+//			printf("%i %lf\n",tID,omp_get_wtime() - time);	// 8			
 
 			delete [] e;
 		  delete g;

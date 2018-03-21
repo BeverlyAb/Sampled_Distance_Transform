@@ -9,12 +9,12 @@
 # Runs a bunch of standard command-line
 # utilities, just as an example:
 #Clear files first
-> inputTest.txt
-for trial in 1 2 3 4 5 ; do
-	./dt input.pgm out1.pgm >> inputTest.txt
-done
+
+echo "=== Chunksize = 100 ==="
+#for trial in 1 2 3 4 5 ; do
+./dt /data/users/babadine/HPC_224/project/teamDT_v2/img/vgFinal/ /data/users/babadine/HPC_224/project/teamDT_v2/3_20/sizeOut/ >> inputTest.txt
+#done
 
 awk ' { sum += $1; n++ } END { print sum/n }' inputTest.txt
 echo "=== Done! ==="
 
-#display -resize 25% result_images/res_vg.pgm &
