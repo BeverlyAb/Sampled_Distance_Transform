@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #define INF 1E20
 
 #define THREADS 8
-#define CHUNKSIZE 100
+//#define CHUNKSIZE 10
 
 /* dt of 1d function using squared distance */
 static float *dt(float *f, int n) {
@@ -63,7 +63,7 @@ static float *dt(float *f, int n) {
 }
 
 /* dt of 2d function using squared distance */
-static void dt(image<float> *im) {
+static void dt(image<float> *im, int CHUNKSIZE) {
   int width = im->width();
   int height = im->height();
   omp_set_num_threads(THREADS);
@@ -119,7 +119,7 @@ static void dt(image<float> *im) {
 }
 
 /* dt of binary image using squared distance */
-static image<float> *dt(image<uchar> *im, uchar on = 0) {
+static image<float> *dt(image<uchar> *im, int CHUNKSIZE) {
   int width = im->width();
   int height = im->height();
 
@@ -130,7 +130,7 @@ static image<float> *dt(image<uchar> *im, uchar on = 0) {
     }
   }
 
-  dt(out);
+  dt(out,);
   return out;
 }
 

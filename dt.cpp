@@ -53,13 +53,14 @@ int getdir (string dir, vector<string> &files)
 }
 
 int main(int argc, char **argv) {
-  if (argc != 3) {
-    fprintf(stderr, "usage: %s input(pbm) output(pgm)\n", argv[0]);
+  if (argc != 4) {
+    fprintf(stderr, "usage: %s input(pbm) output(pgm) chunksize\n", argv[0]);
     return 1;
   }
 
   char *input_name = argv[1];
   char *output_name = argv[2];
+	char *chunk = argv[3];
 
   // load input
 	string dir = input_name;
@@ -75,7 +76,7 @@ int main(int argc, char **argv) {
   	image<uchar> *input = loadPGM(name);
 
     auto start_wall_clock = std::chrono::steady_clock::now();
-    image<float> *out = dt(input);
+    image<float> *out = dt(input,atoi(chunk));
     auto finish_wall_clock = std::chrono::steady_clock::now();
 			
 		cout << files[i].c_str() << '\t';
