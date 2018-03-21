@@ -78,14 +78,13 @@ static void dt(image<float> *im) {
 		for (int x = 0; x < width; x++) {
 			float * f = new float[height];
 			
-			auto time = omp_get_wtime();
 			for (int y = 0; y < height; y++) {	//access im
 				f[y] = imRef(im, x, y);
 			}	
-			printf("%i %lf\n",tID,omp_get_wtime() - time);	// 8	
-		
+						
 			float * d = dt(f, height);					//transform
-		
+
+			
 			for (int y = 0; y < height; y++) {	//update im
 				imRef(im, x, y) = d[y];
 			}		
@@ -95,24 +94,24 @@ static void dt(image<float> *im) {
 		}
 		
 		//row	
-		#pragma omp for schedule(dynamic)	
+		#pragma omp for schedule(dynamic,CHUNKSIZE)	
 		for (y = 0; y < height; y++) {			
 			float * g = new float[width];
-			//time = omp_get_wtime();	
+		
 		  for (x = 0; x < width; x++) { //access im
 		  	g[x] = imRef(im, x, y);
 		  }
-				
 		
 			//printf("%lf\n",omp_get_wtime() - time);	// 1
 
 		
 			float * e = dt(g, width);			//transform
-		
+			auto time = omp_get_wtime();
 		 	for (int x = 0; x < width; x++) {//update im
 		  	imRef(im, x, y) = e[x];
 			}
-			
+			printf("%i %lf\n",tID,omp_get_wtime() - time);	// 8			
+
 			delete [] e;
 		  delete g;
 		}
