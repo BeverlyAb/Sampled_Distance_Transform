@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
     image<float> *out = dt(input,atoi(chunk));
     auto finish_wall_clock = std::chrono::steady_clock::now();
 			
-		cout << files[i].c_str() << '\t';
+		cout << files[i][files[i].size()-4].c_str() << '\t'; //truncate .pgm
     cout << (finish_wall_clock - start_wall_clock) / std::chrono::microseconds(1) << "\n";
 
     for (int y = 0; y < out->height(); y++) {

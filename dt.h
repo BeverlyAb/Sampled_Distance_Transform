@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #define INF 1E20
 
 #define THREADS 8
-//#define CHUNKSIZE 10
 
 /* dt of 1d function using squared distance */
 static float *dt(float *f, int n) {
@@ -67,7 +66,8 @@ static void dt(image<float> *im, int CHUNKSIZE) {
   int width = im->width();
   int height = im->height();
   omp_set_num_threads(THREADS);
-
+		
+	//printf("%i %i %i\n",width,width*90,height);
   int x =0,y=0;
 	#pragma omp parallel num_threads(THREADS)
 	{	
