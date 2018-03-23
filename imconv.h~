@@ -110,7 +110,7 @@ static image<uchar> *imageFLOATtoUCHAR(image<float> *input,
 static image<uchar> *imageFLOATtoUCHAR(image<float> *input) {
   float min, max;
   min_max(input, &min, &max);
-//  printf("min =%0.1f max=%0.1f",min,max);
+  printf("min =%0.1f max=%0.1f",min,max);
   return imageFLOATtoUCHAR(input, min, max);
 }
 

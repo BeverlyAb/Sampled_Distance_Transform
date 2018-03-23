@@ -271,14 +271,14 @@ static void dt(image<float> *im) {
 
  // printf("Final Res\n");
   //  print_values(im,3,3);
-/*
+
 
 printf("\nAfter\n");
   // print_values(im,3,3);
   // for(int p=0;p<10;p++)printf("___________________-----------\n\n\n\n\n\n\n");
   printf(" %0.1f \n\n",im->data[100*200+100]);
 
-*/
+
 
   delete f;
 }
