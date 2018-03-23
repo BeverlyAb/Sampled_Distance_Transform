@@ -15,9 +15,7 @@
 
 ####### Row test	####### 
 for ((j=0; j<3; j+=1)); do
-	for	((i=10; i<201; i+=10)); do
-./dt 1.6.pgm myOut.pgm >> inputTest.txt
-	done
+echo ./dt 1.6.pgm myOut.pgm >> inputTest.txt
 done
 awk ' { sum += $1; n++ } END { print sum/n }' inputTest.txt
 #echo "=== Done! ==="

@@ -23,11 +23,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #include "imconv.h"
 //#include "dt_orig.h"
 #include "dt.h"
-#include<omp.h>
 #include <chrono>
-#include<iostream>
-using namespace std;
+#include <iostream>
 
+using namespace std;
 /*
 int main(int argc, char **argv) {
   if (argc != 3) {
@@ -171,37 +170,34 @@ int main(int argc, char **argv) {
 
 
   image<float> *in_f = imageUCHARtoFLOAT(input);
-	auto start_wall_clock = std::chrono::steady_clock::now();
+	auto start_wall_clock = std::chrono::steady_clock::now(); 
   dt_i_only_row(in_f);
 
   image<float> *trans_out = new image<float>(height,width,false); //Note : Reverse here
-	#pragma omp parallel for schedule(dynamic,90) num_threads(8)
+	
+	#pragma omp parallel for schedule(dynamic,32)
   for(int i=0;i<width;i++)
   {
-		#pragma omp parallel for schedule(dynamic,90) num_threads(8)
-	 for(int j=0;j<height;j++)
+    for(int j=0;j<height;j++)
     {
       trans_out->data[i*height + j] = in_f->data[j*width + i];
     }
   }
-	//#pragma omp parallel for schedule(dynamic,90) num_threads(8)
+
   dt_i_only_row(trans_out);
 
   image<float> *out_f = new image<float>(width,height,false); 
-	#pragma omp parallel for schedule(dynamic,90) num_threads(8)
-  for(int i=0;i<width;i++)
+	#pragma omp parallel for schedule(dynamic,32)  
+	for(int i=0;i<width;i++)
   {
-		#pragma omp parallel for schedule(dynamic,90) num_threads(8)
-		for(int j=0;j<height;j++)
+    for(int j=0;j<height;j++)
     {
       out_f->data[j*width + i]=trans_out->data[i*height + j]; 
     }
   }
 
-  auto finish_wall_clock = std::chrono::steady_clock::now();
-	cout << (finish_wall_clock - start_wall_clock) / std::chrono::microseconds(1) << "\n";
-
-  
+	 auto finish_wall_clock = std::chrono::steady_clock::now();
+    cout << (finish_wall_clock - start_wall_clock) / std::chrono::microseconds(1) << "\n";
  
 
 
@@ -224,4 +220,5 @@ int main(int argc, char **argv) {
  //delete out;
   // delete gray;
 }
+
 

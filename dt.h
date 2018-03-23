@@ -26,11 +26,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 //#define INF 1E20
 #define INF 1E20
-#include <omp.h>
+
 
 #include <iterator>  // std::ostream_iterator
 #include <algorithm> // std::swap (until C++11)
 #include <vector>
+#include <omp.h>
 #define THREADS 8
 
 template<class RandomIterator>
@@ -61,7 +62,6 @@ void transpose_UCHAR(image<uchar> *input)
 
   int width = input->width();
   int height = input->height();
-//	#pragma omp parallel for schedule(dynamic,90) num_threads(THREADS)
   for(int i=0; i<height-2; i++) 
   {  for(int j=i; j<width-1; j++)
     { 
@@ -80,7 +80,6 @@ void transpose_FLOAT(image<float> *input)
 
   int width = input->width();
   int height = input->height();
-	//#pragma omp parallel for schedule(dynamic,90) num_threads(THREADS)
   for(int i=0; i<height-2; i++) 
   {  for(int j=i; j<width-1; j++)
     { 
@@ -102,8 +101,7 @@ void print_values(image<float> *input,int num_rows,int num_cols)
   int height = input->height();
   num_rows = num_rows > height/2 ? height/2 : num_rows;
   num_cols = num_rows > width/2 ? height/2 : num_cols;
-	  
-	for(int i=height/2;i<(height/2)+num_rows;i++)
+  for(int i=height/2;i<(height/2)+num_rows;i++)
   {
     for(int j=width/2;j<(width/2)+num_cols;j++)
     {
@@ -174,16 +172,16 @@ static void dt(image<float> *im) {
   int height = im->height();
   float *f = new float[std::max(width,height)];
 
-  printf("Beginning\n");
+  //printf("Beginning\n");
   // print_values(im,3,3);
   // for(int p=0;p<10;p++)printf("___________________-----------\n\n\n\n\n\n\n");
-  printf(" %0.1f ",im->data[100*200+100]);
+  //printf(" %0.1f ",im->data[100*200+100]);
 
-  printf("One value above ---\n");
+ // printf("One value above ---\n");
 
 
   // transform along rows
-	#pragma omp parallel for schedule(dynamic,90) num_threads(THREADS)
+	#pragma omp parallel for schedule(dynamic, 90)
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       f[x] = imRef(im, x, y);
@@ -197,12 +195,14 @@ static void dt(image<float> *im) {
   int method_new = 1;
   if(method_new == 1)
   {
-    printf("--------NEW METHOD------\n");
+  //  printf("--------NEW METHOD------\n");
 
   //  printf("Before_ trans");
   //  print_values(im,3,3);
-			#pragma omp parallel for schedule(dynamic,90) num_threads(THREADS)
-      for(int i=0; i<height-2; i++) 
+	#pragma omp parallel
+	{
+		#pragma omp for schedule(dynamic, 90)
+  	for(int i=0; i<height-2; i++) 
     {  for(int j=i; j<width-1; j++)
       { 
         float temp = im->data[i*width + j];
@@ -216,11 +216,11 @@ static void dt(image<float> *im) {
     //printf("Before_ trans");
     // print_values(im,3,3);
     //    transpose_FLOAT(im);
-   // printf("After_ trans");
-    //print_values(im,3,3);
+  //  printf("After_ trans");
+   // print_values(im,3,3);
 
     // transform along rows
-	#pragma omp parallel for schedule(dynamic,90) num_threads(THREADS)
+		#pragma omp for schedule(dynamic,90)
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         f[x] = imRef(im, x, y);
@@ -231,7 +231,7 @@ static void dt(image<float> *im) {
       }
       delete [] d;
     }
-
+	}
 
     //     for(int i=0; i<height-2; i++) 
     // {  for(int j=i; j<width-1; j++)
@@ -254,7 +254,7 @@ static void dt(image<float> *im) {
   else
   {
       // transform along columns
-		#pragma omp parallel for schedule(dynamic,90) num_threads(THREADS)
+		#pragma omp parallel for schedule(dynamic,90)
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
         f[y] = imRef(im, x, y);
@@ -268,18 +268,18 @@ static void dt(image<float> *im) {
 
   }
 
-
- // printf("Final Res\n");
-  //  print_values(im,3,3);
 /*
+  printf("Final Res\n");
+    print_values(im,3,3);
+
 
 printf("\nAfter\n");
   // print_values(im,3,3);
   // for(int p=0;p<10;p++)printf("___________________-----------\n\n\n\n\n\n\n");
   printf(" %0.1f \n\n",im->data[100*200+100]);
 
-*/
 
+*/
   delete f;
 }
 
@@ -290,7 +290,7 @@ static image<float> *dt(image<uchar> *im, uchar on = 1) {
   int height = im->height();
 
   image<float> *out = new image<float>(width, height, false);
-	for (int y = 0; y < height; y++) {
+  for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       if (imRef(im, x, y) == on)
 	imRef(out, x, y) = 0;
@@ -330,7 +330,7 @@ void dt_i(float *f, int n) {
       k++;
     d[q] = square(q-v[k]) + f[v[k]];
   }
-	//#omp parallel for schedule(dynamic,90) num_threads(THREADS)
+
   for(int q=0;q<n;q++)
   { 
     f[q] = d[q];
@@ -347,19 +347,17 @@ void dt_i_only_row(image<float> *im)
   float *f = new float[std::max(width,height)];
 
 // transform along rows
-	for (int y = 0; y < height; y++) {
-	//	#pragma omp parallel for schedule(dynamic,90) num_threads(THREADS)
+  for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       f[x] = imRef(im, x, y);
     }
     dt_i(f, width);
-	//	#pragma omp parallel for schedule(dynamic,90) num_threads(THREADS)
     for (int x = 0; x < width; x++) {
       imRef(im, x, y) = f[x];
     }
     //delete [] d;
   
-	}
+}
 }
 void dt_i(image<float> *im) {
   int width = im->width();
@@ -367,7 +365,6 @@ void dt_i(image<float> *im) {
   float *f = new float[std::max(width,height)];
 
 // transform along rows
-	#pragma omp parallel for schedule(dynamic,90) num_threads(THREADS)
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       f[x] = imRef(im, x, y);
@@ -382,7 +379,6 @@ void dt_i(image<float> *im) {
 
 
   // transform along columns
-	#pragma omp parallel for schedule(dynamic,90) num_threads(THREADS)
   for (int x = 0; x < width; x++) {
     for (int y = 0; y < height; y++) {
       f[y] = imRef(im, x, y);
@@ -404,6 +400,7 @@ static image<float> *dt_i(image<uchar> *im, uchar on = 1) {
   int height = im->height();
 
   image<float> *out = new image<float>(width, height, false);
+	#pragma omp parallel for schedule(dynamic, 90)
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       if (imRef(im, x, y) == on)
@@ -419,3 +416,4 @@ static image<float> *dt_i(image<uchar> *im, uchar on = 1) {
 
 
 #endif
+
