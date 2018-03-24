@@ -67,28 +67,29 @@ static void dt(image<float> *im, int CHUNKSIZE) {
   int height = im->height();
   omp_set_num_threads(THREADS);
 		
-	//printf("%i %i %i\n",width,width*90,height);
+	
   int x =0,y=0;
 	#pragma omp parallel num_threads(THREADS)
 	{	
 	//cols
 		int tID = omp_get_thread_num();
-		
 		#pragma omp for schedule(dynamic,CHUNKSIZE)	
 		for (int x = 0; x < width; x++) {
 			float * f = new float[height];
-			
+		
 			for (int y = 0; y < height; y++) {	//access im
 				f[y] = imRef(im, x, y);
 			}	
-						
+				
+		
 			float * d = dt(f, height);					//transform
-
-			
+		
+		
 			for (int y = 0; y < height; y++) {	//update im
 				imRef(im, x, y) = d[y];
 			}		
-				
+			
+	
 			delete [] d;
 		  delete f;
 		}
@@ -101,16 +102,17 @@ static void dt(image<float> *im, int CHUNKSIZE) {
 		  for (x = 0; x < width; x++) { //access im
 		  	g[x] = imRef(im, x, y);
 		  }
-		
+					
 			//printf("%lf\n",omp_get_wtime() - time);	// 1
 		
 			float * e = dt(g, width);			//transform
-			//auto time = omp_get_wtime();
+			
+	//			auto time = omp_get_wtime();
 		 	for (int x = 0; x < width; x++) {//update im
 		  	imRef(im, x, y) = e[x];
-			}
-//			printf("%i %lf\n",tID,omp_get_wtime() - time);	// 8			
-
+			}	
+//	printf("%i %lf\n",tID,omp_get_wtime() - time);	// 8			
+		
 			delete [] e;
 		  delete g;
 		}

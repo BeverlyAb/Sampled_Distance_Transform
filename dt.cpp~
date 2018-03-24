@@ -69,6 +69,7 @@ int main(int argc, char **argv) {
   getdir(dir,files);
   for (unsigned int i = 2; i < files.size();i++)//start at 2, avoid '.' and '..'
   {
+//	if(files[i] == "1.6.pgm"){
 		char name [100];
 		strcpy(name,input_name);
 		strcat(name, files[i].c_str());
@@ -79,8 +80,8 @@ int main(int argc, char **argv) {
     image<float> *out = dt(input,atoi(chunk));
     auto finish_wall_clock = std::chrono::steady_clock::now();
 			
-		cout << files[i][files[i].size()-4].c_str() << '\t'; //truncate .pgm
-    cout << (finish_wall_clock - start_wall_clock) / std::chrono::microseconds(1) << "\n";
+	//	cout << files[i].c_str() << '\t'; 
+   // cout << (finish_wall_clock - start_wall_clock) / std::chrono::microseconds(1) << "\n";
 
     for (int y = 0; y < out->height(); y++) {
     	for (int x = 0; x < out->width(); x++) {
@@ -100,5 +101,6 @@ int main(int argc, char **argv) {
       delete input;
       delete out;
       delete gray;
+//	}
 	}
 }
