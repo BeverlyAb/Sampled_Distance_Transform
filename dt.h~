@@ -172,20 +172,14 @@ static void dt(image<float> *im) {
   int height = im->height();
   float *f = new float[std::max(width,height)];
 
-  //printf("Beginning\n");
-  // print_values(im,3,3);
-  // for(int p=0;p<10;p++)printf("___________________-----------\n\n\n\n\n\n\n");
-  //printf(" %0.1f ",im->data[100*200+100]);
-
- // printf("One value above ---\n");
-
-
   // transform along rows
+	#pragma omp parallel for schedule(dynamic,90)
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       f[x] = imRef(im, x, y);
     }
     float *d = dt(f, width);
+		#pragma omp parallel for schedule(dynamic,90)
     for (int x = 0; x < width; x++) {
       imRef(im, x, y) = d[x];
     }
@@ -193,13 +187,12 @@ static void dt(image<float> *im) {
   }
   int method_new = 1;
   if(method_new == 1)
-  {
-  //  printf("--------NEW METHOD------\n");
-
-  //  printf("Before_ trans");
-  //  print_values(im,3,3);
+  {	
+	/*	#pragma omp parallel
+		{*/
+		#pragma omp parallel for schedule(dynamic,90)
   	for(int i=0; i<height-2; i++) 
-    {  for(int j=i; j<width-1; j++)
+   {  for(int j=i; j<width-1; j++)
       { 
         float temp = im->data[i*width + j];
         float temp2 = im->data[j*width+i];
@@ -209,41 +202,20 @@ static void dt(image<float> *im) {
       }
     }
 
-    //printf("Before_ trans");
-    // print_values(im,3,3);
-    //    transpose_FLOAT(im);
-  //  printf("After_ trans");
-   // print_values(im,3,3);
-
-    // transform along rows
+    // transform along rows	
+		#pragma omp parallel for schedule(dynamic,90)
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         f[x] = imRef(im, x, y);
       }
       float *d = dt(f, width);
+				#pragma omp parallel for schedule(dynamic,90)
       for (int x = 0; x < width; x++) {
         imRef(im, x, y) = d[x];
       }
       delete [] d;
     }
-
-    //     for(int i=0; i<height-2; i++) 
-    // {  for(int j=i; j<width-1; j++)
-    //   { 
-    //     float temp = im->data[i*width + j];
-    //     float temp2 = im->data[j*width+i];
-    //     im->data[i*width+j]= temp2;
-    //     im->data[j*width+i] = temp;
-        
-    //   }
-    // }
-
-
-
-
-  /*  printf("After_row-andtrans");
-    print_values(im,3,3);
-    printf("---END NEW----\n"); */
+	//	}
   }
   else
   {
@@ -260,41 +232,29 @@ static void dt(image<float> *im) {
     }
 
   }
-
-/*
-  printf("Final Res\n");
-    print_values(im,3,3);
-
-
-printf("\nAfter\n");
-  // print_values(im,3,3);
-  // for(int p=0;p<10;p++)printf("___________________-----------\n\n\n\n\n\n\n");
-  printf(" %0.1f \n\n",im->data[100*200+100]);
-
-
-*/
   delete f;
 }
 
 
 /* dt of binary image using squared distance */
-static image<float> *dt(image<uchar> *im, uchar on = 1) {
+static image<float> *dt(image<uchar> *im, uchar on = 0) {
   int width = im->width();
   int height = im->height();
 
   image<float> *out = new image<float>(width, height, false);
-  for (int y = 0; y < height; y++) {
+	#pragma omp parallel for schedule(dynamic,90)  
+	for(int y = 0; y < height; y++) {
+		#pragma omp parallel for schedule(dynamic,90) 
     for (int x = 0; x < width; x++) {
-      if (imRef(im, x, y) == on)
-	imRef(out, x, y) = 0;
-      else
-	imRef(out, x, y) = INF;
+	     imRef(out, x, y) = imRef(im,x,y);
     }
   }
 
   dt(out);
   return out;
 }
+
+
 //---------------Slight diff - inplace function------------//
 
 void dt_i(float *f, int n) {
@@ -323,7 +283,7 @@ void dt_i(float *f, int n) {
       k++;
     d[q] = square(q-v[k]) + f[v[k]];
   }
-
+	//#pragma omp parallel for schedule(dynamic,90)
   for(int q=0;q<n;q++)
   { 
     f[q] = d[q];
@@ -345,12 +305,12 @@ void dt_i_only_row(image<float> *im)
       f[x] = imRef(im, x, y);
     }
     dt_i(f, width);
+
     for (int x = 0; x < width; x++) {
       imRef(im, x, y) = f[x];
     }
     //delete [] d;
-  
-}
+  }
 }
 void dt_i(image<float> *im) {
   int width = im->width();
@@ -358,6 +318,7 @@ void dt_i(image<float> *im) {
   float *f = new float[std::max(width,height)];
 
 // transform along rows
+	#pragma omp parallel for schedule(dynamic,90)//shouldn't affect
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       f[x] = imRef(im, x, y);
@@ -372,6 +333,7 @@ void dt_i(image<float> *im) {
 
 
   // transform along columns
+	#pragma omp parallel for schedule(dynamic,90)//shouldn't affect
   for (int x = 0; x < width; x++) {
     for (int y = 0; y < height; y++) {
       f[y] = imRef(im, x, y);
@@ -395,6 +357,7 @@ static image<float> *dt_i(image<uchar> *im, uchar on = 0) {
   image<float> *out = new image<float>(width, height, false);
 	#pragma omp parallel for schedule(dynamic,90)  
 	for(int y = 0; y < height; y++) {
+	//	#pragma omp parallel for schedule(dynamic,90)  
     for (int x = 0; x < width; x++) {
 	     imRef(out, x, y) = imRef(im,x,y);
     }
