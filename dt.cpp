@@ -168,10 +168,10 @@ int main(int argc, char **argv) {
    int width = input->width();
    int height = input->height();
 
-
   image<float> *in_f = imageUCHARtoFLOAT(input);
+
 	auto start_wall_clock = std::chrono::steady_clock::now(); 
-  dt_i_only_row(in_f);
+ dt_i_only_row(in_f);
 
   image<float> *trans_out = new image<float>(height,width,false); //Note : Reverse here
 	
