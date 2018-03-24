@@ -2,7 +2,7 @@
 #$ -q class8i
 #$ -R y
 #$ -N DTS
-#$ -pe openmp 8			
+#$ -pe openmp 1			
 # Module load gcc compiler version 4.8.2
 #module load  gcc/4.9.2
 
