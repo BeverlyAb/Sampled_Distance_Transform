@@ -8,7 +8,7 @@
 
 ####### Chunk Test	####### 
 for ((j=0; j<3; j+=1)); do
-	for	((i=31; i<33; i+=10)); do
+	for	((i=10; i<200; i+=10)); do
 		./dt /data/users/babadine/HPC_224/project/teamDT_v2/img/newAll/ /data/users/babadine/HPC_224/project/teamDT_v2/3_20/sizeOut/ $i >> /data/users/babadine/HPC_224/project/teamDT_v2/3_20/512/$i.txt
 	done
 done
